@@ -1,7 +1,7 @@
 import type { BudgetInputs, EapItem, CostFactors } from "@/types";
 
 export const defaultCostFactors: CostFactors = {
-  baseCostPerSqm: 1200, // This is a base value, R$ in the example, but we'll use USD for consistency
+  baseCostPerSqm: 1200, // Base value in BRL
   wallTypeMultiplier: {
     masonry: 1,
     structural: 1.1,
@@ -16,7 +16,7 @@ export const defaultCostFactors: CostFactors = {
     paint: 1,
     cladding: 1.1,
     plaster: 1.15,
-    skimCoat: 1.2,
+    skimCoat: 1.2, // This corresponds to "reboco"
   },
   frameCostPerSqm: 500, // Average from R$300-R$700
   costPerBathroom: 3000, // Average from R$2000-R$4000
@@ -50,7 +50,7 @@ const eapDistribution = {
   ceiling: 0.05, // Etapa 9
   waterproofing: 0.02, // Etapa 10
   painting: 0.05, // Etapa 11
-  indirectsAndMargin: 0.15, // Etapa 13
+  indirectsAndMargin: 0.15, // Etapa 13 - Corresponds to profit margin and indirects
 };
 
 
@@ -74,78 +74,74 @@ export const calculateBudget = (
     wastePercentage
   } = inputs;
 
-  let totalCost = 0;
+  let totalBeforeAdjustments = 0;
 
-  // 1. Calculate base cost influenced by total area
+  // Calculate base cost influenced by total area
   const baseTotalCost = factors.baseCostPerSqm * area;
 
-  // 2. Calculate cost for each EAP item
-  
-  // EAP 1: Foundation
+  // 1. Foundation Cost
   const foundationBaseCost = baseTotalCost * eapDistribution.foundation;
   const foundationCost = foundationBaseCost * (foundationType === 'continuous-helix' ? factors.foundationMultiplier.continuousHelix : factors.foundationMultiplier.standard);
-  totalCost += foundationCost;
-
-  // EAP 2: Structure (not directly modified by questions, uses base distribution)
+  
+  // 2. Structure Cost
   const structureCost = baseTotalCost * eapDistribution.structure;
-  totalCost += structureCost;
 
-  // EAP 3: Masonry
+  // 3. Masonry Cost
   const masonryBaseCost = baseTotalCost * eapDistribution.masonry;
   const masonryCost = masonryBaseCost * factors.wallTypeMultiplier[wallType];
-  totalCost += masonryCost;
   
-  // EAP 4 & 5 & 7 (partially): Bathrooms influence
-  const bathroomAddition = bathrooms * factors.costPerBathroom * factors.finishQualityMultiplier[finishQuality];
-  const plumbingCost = (baseTotalCost * eapDistribution.plumbing) + (bathroomAddition / 3);
-  const electricalCost = (baseTotalCost * eapDistribution.electrical) + (bathroomAddition / 3);
-  totalCost += plumbingCost + electricalCost;
+  // Bathroom additions affect multiple EAP items
+  const bathroomAdditionCost = bathrooms * factors.costPerBathroom * factors.finishQualityMultiplier[finishQuality];
 
-  // EAP 6, 7, 11: Coatings, Frames, Painting (influenced by finish quality)
+  // 4. Plumbing Cost
+  const plumbingCost = (baseTotalCost * eapDistribution.plumbing) + (bathroomAdditionCost / 3); // Distribute cost
+  
+  // 5. Electrical Cost
+  const electricalCost = (baseTotalCost * eapDistribution.electrical) + (bathroomAdditionCost / 3); // Distribute cost
+
+  // 6. Coatings Cost
   let coatingsCost = baseTotalCost * eapDistribution.coatings;
-  let framesCost = (baseTotalCost * eapDistribution.frames) + (bathroomAddition / 3);
-  let paintingCost = baseTotalCost * eapDistribution.painting;
-
-  // Adjust by Finish Quality
-  const qualityMulti = factors.finishQualityMultiplier[finishQuality];
-  coatingsCost *= qualityMulti;
-  framesCost *= qualityMulti;
-  paintingCost *= qualityMulti;
-
-  // Adjust by Wall Finish
-  const wallFinishMulti = factors.wallFinishMultiplier[wallFinish];
-  coatingsCost *= wallFinishMulti;
-  paintingCost *= wallFinishMulti;
-
-  // Adjust by specific areas
-  framesCost += frameArea * factors.frameCostPerSqm;
-  coatingsCost += floorArea * factors.floorCostPerSqm * qualityMulti;
+  coatingsCost += floorArea * factors.floorCostPerSqm; // Add specific floor cost
+  coatingsCost *= factors.finishQualityMultiplier[finishQuality];
+  coatingsCost *= factors.wallFinishMultiplier[wallFinish === 'skim-coat' ? 'skimCoat' : wallFinish];
   
-  totalCost += coatingsCost + framesCost + paintingCost;
+  // 7. Frames, Fixtures, and Metals Cost
+  let framesCost = baseTotalCost * eapDistribution.frames;
+  framesCost += frameArea * factors.frameCostPerSqm; // Add specific frame cost
+  framesCost += (bathroomAdditionCost / 3); // Distribute bathroom cost
+  framesCost *= factors.finishQualityMultiplier[finishQuality];
 
-  // EAP 9: Ceiling
+  // 8. Roofing Cost
+  let roofingBaseCost = (baseTotalCost * eapDistribution.roofing) * (roofArea > 0 ? (roofArea / area) : 1);
+  const roofingCost = roofingBaseCost * factors.roofTypeMultiplier[roofType];
+
+  // 9. Ceiling Cost
   const ceilingCost = ceilingArea * factors.ceilingCostPerSqm[ceilingType];
-  totalCost += ceilingCost;
-  
-  // EAP 8 & 10: Roofing & Waterproofing
-  let roofingBaseCost = (baseTotalCost * eapDistribution.roofing) * (roofArea / area);
-  roofingBaseCost *= factors.roofTypeMultiplier[roofType];
+
+  // 10. Waterproofing Cost
   let waterproofingCost = baseTotalCost * eapDistribution.waterproofing;
   if (roofType === 'slab' || roofType === 'metal') {
       waterproofingCost *= 1.5; // Increased need for waterproofing
   } else {
       waterproofingCost = 0; // Not always needed for ceramic
   }
-  const roofingCost = roofingBaseCost;
-  totalCost += roofingCost + waterproofingCost;
+  
+  // 11. Painting Cost
+  let paintingCost = baseTotalCost * eapDistribution.painting;
+  paintingCost *= factors.finishQualityMultiplier[finishQuality];
+  paintingCost *= factors.wallFinishMultiplier[wallFinish === 'skim-coat' ? 'skimCoat' : wallFinish];
+  
+  // Sum of all primary costs
+  const sumOfCosts = foundationCost + structureCost + masonryCost + plumbingCost + electricalCost + coatingsCost + framesCost + roofingCost + ceilingCost + waterproofingCost + paintingCost;
 
-  // EAP 13: Indirects and Margin
-  const indirectsAndMarginCost = totalCost * eapDistribution.indirectsAndMargin;
-  totalCost += indirectsAndMarginCost;
+  // 13. Margin and Indirects
+  const indirectsAndMarginCost = sumOfCosts * eapDistribution.indirectsAndMargin;
+  
+  const totalWithMargin = sumOfCosts + indirectsAndMarginCost;
 
-  // EAP 12: Waste (global adjustment)
-  const wasteCost = totalCost * (wastePercentage / 100);
-  const finalTotal = totalCost + wasteCost;
+  // 12. Waste (global adjustment)
+  const wasteCost = totalWithMargin * (wastePercentage / 100);
+  const finalTotal = totalWithMargin + wasteCost;
 
   const eap: EapItem[] = [
      { id: '1', name: 'Fundação', unit: 'total', quantity: 1, unitPrice: foundationCost, totalPrice: foundationCost },
@@ -159,8 +155,8 @@ export const calculateBudget = (
      { id: '9', name: 'Forro', unit: 'total', quantity: 1, unitPrice: ceilingCost, totalPrice: ceilingCost },
      { id: '10', name: 'Impermeabilização', unit: 'total', quantity: 1, unitPrice: waterproofingCost, totalPrice: waterproofingCost },
      { id: '11', name: 'Pintura', unit: 'total', quantity: 1, unitPrice: paintingCost, totalPrice: paintingCost },
-     { id: '12', name: 'Desperdício', unit: 'total', quantity: 1, unitPrice: wasteCost, totalPrice: wasteCost },
      { id: '13', name: 'Margem e indiretos', unit: 'total', quantity: 1, unitPrice: indirectsAndMarginCost, totalPrice: indirectsAndMarginCost },
+     { id: '12', name: 'Desperdício', unit: 'total', quantity: 1, unitPrice: wasteCost, totalPrice: wasteCost },
   ];
   
   return { eap, total: finalTotal };

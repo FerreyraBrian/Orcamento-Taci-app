@@ -51,7 +51,7 @@ import type { EapItem, BudgetInputs, CostFactors } from "@/types";
 import { calculateBudget, defaultCostFactors } from "@/lib/budget";
 
 const formSchema = z.object({
-  area: z.coerce.number().min(10, "Área debe ser al menos 10 m²"),
+  area: z.coerce.number().min(10, "Área deve ser al menos 10 m²"),
   wallType: z.enum(['masonry', 'structural', 'drywall']),
   finishQuality: z.enum(['economy', 'medium', 'high']),
   wallFinish: z.enum(['paint', 'cladding', 'plaster', 'skim-coat']),
@@ -139,9 +139,9 @@ export default function BudgetBuilderPage() {
   );
   
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("es-ES", {
+    return new Intl.NumberFormat("pt-BR", {
       style: "currency",
-      currency: "EUR",
+      currency: "BRL",
     }).format(value);
   };
 
@@ -178,7 +178,7 @@ export default function BudgetBuilderPage() {
             <CardHeader>
               <CardTitle className="font-headline text-2xl flex items-center gap-2">
                 <Calculator className="w-6 h-6 text-primary" />
-                Detalles del Proyecto
+                Detalhes do Projeto
               </CardTitle>
               <CardDescription>
                 Ingrese las especificaciones de su proyecto para una estimación del presupuesto en tiempo real.
@@ -200,7 +200,7 @@ export default function BudgetBuilderPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger id="wallType"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="masonry">Albañilería Común</SelectItem>
+                        <SelectItem value="masonry">Alvenaria Comum</SelectItem>
                         <SelectItem value="structural">Bloque Estructural</SelectItem>
                         <SelectItem value="drywall">Gesso Acartonado</SelectItem>
                       </SelectContent>
@@ -215,8 +215,8 @@ export default function BudgetBuilderPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger id="finishQuality"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="economy">Económico</SelectItem>
-                        <SelectItem value="medium">Medio</SelectItem>
+                        <SelectItem value="economy">Econômico</SelectItem>
+                        <SelectItem value="medium">Médio</SelectItem>
                         <SelectItem value="high">Alto</SelectItem>
                       </SelectContent>
                     </Select>
@@ -247,7 +247,7 @@ export default function BudgetBuilderPage() {
 
                 {/* Bathrooms */}
                 <div className="space-y-2">
-                  <Label htmlFor="bathrooms" className="flex items-center gap-2"><Bath className="w-4 h-4" /> Cantidad de Baños</Label>
+                  <Label htmlFor="bathrooms" className="flex items-center gap-2"><Bath className="w-4 h-4" /> Quantidade de Banheiros</Label>
                   <Controller name="bathrooms" control={control} render={({ field }) => <Input id="bathrooms" type="number" {...field} />} />
                 </div>
 
@@ -289,7 +289,7 @@ export default function BudgetBuilderPage() {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger id="roofType"><SelectValue /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="ceramic">Cerámica</SelectItem>
+                                    <SelectItem value="ceramic">Cerâmica</SelectItem>
                                     <SelectItem value="metal">Metálica</SelectItem>
                                     <SelectItem value="slab">Laje</SelectItem>
                                 </SelectContent>
