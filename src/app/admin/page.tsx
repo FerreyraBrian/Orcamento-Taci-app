@@ -80,7 +80,7 @@ export default function AdminPage() {
       form.reset(factorsToLoad);
       setDefaultCostFactors(factorsToLoad);
     } catch (error) {
-      console.error("Failed to load or parse cost factors from localStorage", error);
+      console.error("Falha ao carregar ou analisar os fatores de custo do localStorage", error);
       setDefaultCostFactors(defaultFactors);
     }
   }, [form]);
@@ -89,14 +89,14 @@ export default function AdminPage() {
     try {
       localStorage.setItem("costFactors", JSON.stringify(data));
       toast({
-        title: "Success!",
-        description: "Cost factors have been saved successfully.",
+        title: "Sucesso!",
+        description: "Os fatores de custo foram salvos com sucesso.",
       });
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to save cost factors.",
+        title: "Erro",
+        description: "Falha ao salvar os fatores de custo.",
       });
       console.error(error);
     }
@@ -131,19 +131,19 @@ export default function AdminPage() {
         <CardHeader>
           <CardTitle className="font-headline text-2xl flex items-center gap-2">
             <Settings className="w-6 h-6 text-primary"/>
-            Admin Cost Controls
+            Controles de Custo (Admin)
           </CardTitle>
           <CardDescription>
-            Customize the multipliers and base costs for budget calculations.
+            Personalize os multiplicadores e custos base para os cálculos de orçamento.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Base Costs</h3>
+              <h3 className="text-lg font-semibold font-headline">Custos Base</h3>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="baseCostPerSqm">Base Cost per m² ($)</Label>
+                    <Label htmlFor="baseCostPerSqm">Custo Base por m² (R$)</Label>
                     <Controller
                       name="baseCostPerSqm"
                       control={control}
@@ -153,7 +153,7 @@ export default function AdminPage() {
                     />
                   </div>
                    <div className="space-y-2">
-                    <Label htmlFor="frameCostPerSqm">Frame Cost per m² ($)</Label>
+                    <Label htmlFor="frameCostPerSqm">Custo de Esquadrias por m² (R$)</Label>
                     <Controller
                       name="frameCostPerSqm"
                       control={control}
@@ -163,7 +163,7 @@ export default function AdminPage() {
                     />
                   </div>
                    <div className="space-y-2">
-                    <Label htmlFor="costPerBathroom">Cost Per Bathroom ($)</Label>
+                    <Label htmlFor="costPerBathroom">Custo por Banheiro (R$)</Label>
                     <Controller
                       name="costPerBathroom"
                       control={control}
@@ -173,7 +173,7 @@ export default function AdminPage() {
                     />
                   </div>
                    <div className="space-y-2">
-                    <Label htmlFor="floorCostPerSqm">Floor Cost per m² ($)</Label>
+                    <Label htmlFor="floorCostPerSqm">Custo do Piso por m² (R$)</Label>
                     <Controller
                       name="floorCostPerSqm"
                       control={control}
@@ -186,11 +186,11 @@ export default function AdminPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Finish Quality Multipliers</h3>
+              <h3 className="text-lg font-semibold font-headline">Multiplicadores de Padrão de Acabamento</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Object.keys(defaultCostFactors.finishQualityMultiplier).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label htmlFor={`finishQualityMultiplier.${key}`} className="capitalize">{key}</Label>
+                    <Label htmlFor={`finishQualityMultiplier.${key}`} className="capitalize">{key === 'economy' ? 'Econômico' : key === 'medium' ? 'Médio' : 'Alto'}</Label>
                     <Controller
                       name={`finishQualityMultiplier.${key as keyof CostFactors['finishQualityMultiplier']}`}
                       control={control}
@@ -204,11 +204,11 @@ export default function AdminPage() {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Wall Type Multipliers</h3>
+              <h3 className="text-lg font-semibold font-headline">Multiplicadores de Tipo de Parede</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Object.keys(defaultCostFactors.wallTypeMultiplier).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label htmlFor={`wallTypeMultiplier.${key}`} className="capitalize">{key}</Label>
+                    <Label htmlFor={`wallTypeMultiplier.${key}`} className="capitalize">{key === 'masonry' ? 'Alvenaria' : key === 'structural' ? 'Estrutural' : 'Drywall'}</Label>
                     <Controller
                       name={`wallTypeMultiplier.${key as keyof CostFactors['wallTypeMultiplier']}`}
                       control={control}
@@ -222,11 +222,11 @@ export default function AdminPage() {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Wall Finish Multipliers</h3>
+              <h3 className="text-lg font-semibold font-headline">Multiplicadores de Acabamento de Parede</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Object.keys(defaultCostFactors.wallFinishMultiplier).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label htmlFor={`wallFinishMultiplier.${key}`} className="capitalize">{key === 'skimCoat' ? "Skim Coat" : key}</Label>
+                    <Label htmlFor={`wallFinishMultiplier.${key}`} className="capitalize">{key === 'skimCoat' ? "Reboco" : key === 'paint' ? 'Pintura' : key === 'cladding' ? 'Chapisco' : 'Emboço'}</Label>
                     <Controller
                       name={`wallFinishMultiplier.${key as keyof CostFactors['wallFinishMultiplier']}`}
                       control={control}
@@ -240,7 +240,7 @@ export default function AdminPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Ceiling Cost per m²</h3>
+              <h3 className="text-lg font-semibold font-headline">Custo de Forro por m²</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Object.keys(defaultCostFactors.ceilingCostPerSqm).map((key) => (
                   <div key={key} className="space-y-2">
@@ -258,11 +258,11 @@ export default function AdminPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Roof Type Multipliers</h3>
+              <h3 className="text-lg font-semibold font-headline">Multiplicadores de Tipo de Cobertura</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Object.keys(defaultCostFactors.roofTypeMultiplier).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label htmlFor={`roofTypeMultiplier.${key}`} className="capitalize">{key}</Label>
+                    <Label htmlFor={`roofTypeMultiplier.${key}`} className="capitalize">{key === 'ceramic' ? 'Cerâmica' : key === 'metal' ? 'Metálica' : 'Laje'}</Label>
                     <Controller
                       name={`roofTypeMultiplier.${key as keyof CostFactors['roofTypeMultiplier']}`}
                       control={control}
@@ -276,11 +276,11 @@ export default function AdminPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-headline">Foundation Multipliers</h3>
+              <h3 className="text-lg font-semibold font-headline">Multiplicadores de Fundação</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Object.keys(defaultCostFactors.foundationMultiplier).map((key) => (
                   <div key={key} className="space-y-2">
-                    <Label htmlFor={`foundationMultiplier.${key}`} className="capitalize">{key === 'continuousHelix' ? 'Continuous Helix' : key}</Label>
+                    <Label htmlFor={`foundationMultiplier.${key}`} className="capitalize">{key === 'continuousHelix' ? 'Hélice Contínua' : 'Padrão'}</Label>
                     <Controller
                       name={`foundationMultiplier.${key as keyof CostFactors['foundationMultiplier']}`}
                       control={control}
@@ -297,7 +297,7 @@ export default function AdminPage() {
           <CardFooter>
             <Button type="submit" className="w-full md:w-auto ml-auto bg-accent hover:bg-accent/90">
               <Save className="mr-2 h-4 w-4"/>
-              Save Changes
+              Salvar Alterações
             </Button>
           </CardFooter>
         </form>

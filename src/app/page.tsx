@@ -51,7 +51,7 @@ import type { EapItem, BudgetInputs, CostFactors } from "@/types";
 import { calculateBudget, defaultCostFactors } from "@/lib/budget";
 
 const formSchema = z.object({
-  area: z.coerce.number().min(10, "Área deve ser al menos 10 m²"),
+  area: z.coerce.number().min(10, "A área deve ser de pelo menos 10 m²"),
   wallType: z.enum(['masonry', 'structural', 'drywall']),
   finishQuality: z.enum(['economy', 'medium', 'high']),
   wallFinish: z.enum(['paint', 'cladding', 'plaster', 'skim-coat']),
@@ -69,16 +69,19 @@ const formSchema = z.object({
 export default function BudgetBuilderPage() {
   const [eap, setEap] = useState<EapItem[]>([]);
   const [total, setTotal] = useState(0);
-  const [costFactors, setCostFactors] = useState<CostFactors>(defaultCostFactors);
+  const [costFactors, setCostFactors] = useState<CostFactors | null>(null);
 
   useEffect(() => {
     try {
-      // For this app, we are not using localStorage for cost factors anymore.
-      // We will rely on the defaultCostFactors from the budget library.
-      // This can be changed later to fetch from a backend or admin page.
-      setCostFactors(defaultCostFactors);
+      const savedFactors = localStorage.getItem("costFactors");
+      if (savedFactors) {
+        setCostFactors(JSON.parse(savedFactors));
+      } else {
+        setCostFactors(defaultCostFactors);
+      }
     } catch (error) {
-      console.error("Failed to set default cost factors", error);
+      console.error("Falha ao carregar os fatores de custo", error);
+      setCostFactors(defaultCostFactors);
     }
   }, []);
 
@@ -104,6 +107,8 @@ export default function BudgetBuilderPage() {
   const { watch, control, formState: { errors } } = form;
 
   useEffect(() => {
+    if (!costFactors) return;
+    
     const subscription = watch((values) => {
       const parsed = formSchema.safeParse(values);
       if (parsed.success) {
@@ -146,7 +151,7 @@ export default function BudgetBuilderPage() {
   };
 
   const handleExport = () => {
-    const headers = ["Item", "Unit", "Quantity", "Unit Price", "Total Price"];
+    const headers = ["Item", "Unidade", "Quantidade", "Preço Unitário", "Preço Total"];
     const rows = eap.map((item) => [
       item.name,
       item.unit,
@@ -164,7 +169,7 @@ export default function BudgetBuilderPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "budget_estimate.csv");
+    link.setAttribute("download", "estimativa_orcamento.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -181,7 +186,7 @@ export default function BudgetBuilderPage() {
                 Detalhes do Projeto
               </CardTitle>
               <CardDescription>
-                Ingrese las especificaciones de su proyecto para una estimación del presupuesto en tiempo real.
+                Insira as especificações do seu projeto para uma estimativa do orçamento em tempo real.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -195,14 +200,14 @@ export default function BudgetBuilderPage() {
 
                 {/* Wall Type */}
                 <div className="space-y-2">
-                  <Label htmlFor="wallType" className="flex items-center gap-2"><Layers className="w-4 h-4" /> Tipo de Bloque</Label>
+                  <Label htmlFor="wallType" className="flex items-center gap-2"><Layers className="w-4 h-4" /> Tipo de Parede</Label>
                   <Controller name="wallType" control={control} render={({ field }) => (
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger id="wallType"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="masonry">Alvenaria Comum</SelectItem>
-                        <SelectItem value="structural">Bloque Estructural</SelectItem>
-                        <SelectItem value="drywall">Gesso Acartonado</SelectItem>
+                        <SelectItem value="masonry">Alvenaria</SelectItem>
+                        <SelectItem value="structural">Alvenaria Estrutural</SelectItem>
+                        <SelectItem value="drywall">Drywall</SelectItem>
                       </SelectContent>
                     </Select>
                   )} />
@@ -210,7 +215,7 @@ export default function BudgetBuilderPage() {
                 
                 {/* Finish Quality */}
                 <div className="space-y-2">
-                  <Label htmlFor="finishQuality" className="flex items-center gap-2"><Gem className="w-4 h-4" /> Calidad de Acabado</Label>
+                  <Label htmlFor="finishQuality" className="flex items-center gap-2"><Gem className="w-4 h-4" /> Padrão de Acabamento</Label>
                   <Controller name="finishQuality" control={control} render={({ field }) => (
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger id="finishQuality"><SelectValue /></SelectTrigger>
@@ -225,14 +230,14 @@ export default function BudgetBuilderPage() {
 
                 {/* Wall Finish */}
                 <div className="space-y-2">
-                  <Label htmlFor="wallFinish" className="flex items-center gap-2"><PaintBucket className="w-4 h-4" /> Acabado de Paredes</Label>
+                  <Label htmlFor="wallFinish" className="flex items-center gap-2"><PaintBucket className="w-4 h-4" /> Acabamento das Paredes</Label>
                   <Controller name="wallFinish" control={control} render={({ field }) => (
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger id="wallFinish"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="paint">Pintura</SelectItem>
                         <SelectItem value="cladding">Chapisco</SelectItem>
-                        <SelectItem value="plaster">Embozo</SelectItem>
+                        <SelectItem value="plaster">Emboço</SelectItem>
                         <SelectItem value="skim-coat">Reboco</SelectItem>
                       </SelectContent>
                     </Select>
@@ -253,7 +258,7 @@ export default function BudgetBuilderPage() {
 
                 {/* Floor Area */}
                  <div className="space-y-2">
-                  <Label htmlFor="floorArea" className="flex items-center gap-2"><Square className="w-4 h-4" /> Metragem de Piso (m²)</Label>
+                  <Label htmlFor="floorArea" className="flex items-center gap-2"><Square className="w-4 h-4" /> Área de Piso (m²)</Label>
                   <Controller name="floorArea" control={control} render={({ field }) => <Input id="floorArea" type="number" {...field} />} />
                 </div>
                 
@@ -325,10 +330,10 @@ export default function BudgetBuilderPage() {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="font-headline text-2xl">
-                Desglose del Presupuesto Estimado
+                Detalhamento do Orçamento Estimado
               </CardTitle>
               <CardDescription>
-                Esta es una estimación preliminar basada en los datos proporcionados.
+                Esta é uma estimativa preliminar baseada nos dados fornecidos.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -336,8 +341,8 @@ export default function BudgetBuilderPage() {
                 <Table>
                   <TableHeader className="sticky top-0 bg-secondary">
                     <TableRow>
-                      <TableHead className="font-semibold">Ítem</TableHead>
-                      <TableHead className="text-right font-semibold">Precio Total</TableHead>
+                      <TableHead className="font-semibold">Item</TableHead>
+                      <TableHead className="text-right font-semibold">Preço Total</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -349,7 +354,7 @@ export default function BudgetBuilderPage() {
                     )) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center text-muted-foreground h-48">
-                          Ingrese detalles válidos del proyecto para ver el desglose del presupuesto.
+                          Insira detalhes válidos do projeto para ver o detalhamento do orçamento.
                         </TableCell>
                       </TableRow>
                     )}
@@ -365,7 +370,7 @@ export default function BudgetBuilderPage() {
                     Exportar CSV
                   </Button>
                   <div className="text-right">
-                    <p className="text-muted-foreground">Presupuesto Total Estimado</p>
+                    <p className="text-muted-foreground">Orçamento Total Estimado</p>
                     <p className="text-2xl font-bold font-headline text-primary">
                       {formatCurrency(totalBudget)}
                     </p>
