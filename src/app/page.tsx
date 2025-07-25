@@ -38,15 +38,32 @@ import {
   Layers,
   FileDown,
   Calculator,
+  PaintBucket,
+  Square,
+  DoorOpen,
+  Bath,
+  Home,
+  Wind,
+  Droplet,
+  Percent,
 } from "lucide-react";
 import type { EapItem, BudgetInputs, CostFactors } from "@/types";
 import { calculateBudget, defaultCostFactors } from "@/lib/budget";
 
 const formSchema = z.object({
-  projectType: z.enum(["residential", "commercial", "industrial"]),
-  area: z.coerce.number().min(10, "Area must be at least 10 m²"),
-  quality: z.enum(["standard", "premium", "luxury"]),
-  floors: z.coerce.number().min(1, "Must have at least 1 floor"),
+  area: z.coerce.number().min(10, "Área debe ser al menos 10 m²"),
+  wallType: z.enum(['masonry', 'structural', 'drywall']),
+  finishQuality: z.enum(['economy', 'medium', 'high']),
+  wallFinish: z.enum(['paint', 'cladding', 'plaster', 'skim-coat']),
+  frameArea: z.coerce.number().min(0),
+  bathrooms: z.coerce.number().min(0),
+  floorArea: z.coerce.number().min(0),
+  ceilingArea: z.coerce.number().min(0),
+  ceilingType: z.enum(['pvc', 'gypsum']),
+  roofType: z.enum(['ceramic', 'metal', 'slab']),
+  roofArea: z.coerce.number().min(0),
+  foundationType: z.enum(['standard', 'continuous-helix']),
+  wastePercentage: z.coerce.number().min(0).max(100),
 });
 
 export default function BudgetBuilderPage() {
@@ -56,28 +73,35 @@ export default function BudgetBuilderPage() {
 
   useEffect(() => {
     try {
-      const storedFactors = localStorage.getItem("costFactors");
-      if (storedFactors) {
-        setCostFactors(JSON.parse(storedFactors));
-      }
+      // For this app, we are not using localStorage for cost factors anymore.
+      // We will rely on the defaultCostFactors from the budget library.
+      // This can be changed later to fetch from a backend or admin page.
+      setCostFactors(defaultCostFactors);
     } catch (error) {
-      console.error("Failed to parse cost factors from localStorage", error);
+      console.error("Failed to set default cost factors", error);
     }
   }, []);
 
   const form = useForm<BudgetInputs>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      projectType: "residential",
       area: 100,
-      quality: "standard",
-      floors: 1,
+      wallType: 'masonry',
+      finishQuality: 'medium',
+      wallFinish: 'paint',
+      frameArea: 15,
+      bathrooms: 2,
+      floorArea: 100,
+      ceilingArea: 100,
+      ceilingType: 'pvc',
+      roofType: 'ceramic',
+      roofArea: 110,
+      foundationType: 'standard',
+      wastePercentage: 5,
     },
   });
 
   const { watch, control, formState: { errors } } = form;
-
-  const watchedInputs = watch();
 
   useEffect(() => {
     const subscription = watch((values) => {
@@ -115,9 +139,9 @@ export default function BudgetBuilderPage() {
   );
   
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("es-ES", {
       style: "currency",
-      currency: "USD",
+      currency: "EUR",
     }).format(value);
   };
 
@@ -154,81 +178,144 @@ export default function BudgetBuilderPage() {
             <CardHeader>
               <CardTitle className="font-headline text-2xl flex items-center gap-2">
                 <Calculator className="w-6 h-6 text-primary" />
-                Project Details
+                Detalles del Proyecto
               </CardTitle>
               <CardDescription>
-                Input your project specs for a real-time budget estimate.
+                Ingrese las especificaciones de su proyecto para una estimación del presupuesto en tiempo real.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form className="space-y-4">
+                {/* Area */}
                 <div className="space-y-2">
-                  <Label htmlFor="projectType" className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4" /> Project Type
-                  </Label>
-                  <Controller
-                    name="projectType"
-                    control={control}
-                    render={({ field }) => (
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger id="projectType">
-                          <SelectValue placeholder="Select type..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="residential">Residential</SelectItem>
-                          <SelectItem value="commercial">Commercial</SelectItem>
-                          <SelectItem value="industrial">Industrial</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="area" className="flex items-center gap-2">
-                    <Ruler className="w-4 h-4" /> Total Area (m²)
-                  </Label>
-                  <Controller
-                    name="area"
-                    control={control}
-                    render={({ field }) => (
-                      <Input id="area" type="number" placeholder="e.g., 150" {...field} />
-                    )}
-                  />
+                  <Label htmlFor="area" className="flex items-center gap-2"><Ruler className="w-4 h-4" /> Área Total (m²)</Label>
+                  <Controller name="area" control={control} render={({ field }) => <Input id="area" type="number" {...field} />} />
                   {errors.area && <p className="text-destructive text-sm">{errors.area.message}</p>}
                 </div>
+
+                {/* Wall Type */}
                 <div className="space-y-2">
-                  <Label htmlFor="quality" className="flex items-center gap-2">
-                    <Gem className="w-4 h-4" /> Quality Standard
-                  </Label>
-                   <Controller
-                    name="quality"
-                    control={control}
-                    render={({ field }) => (
+                  <Label htmlFor="wallType" className="flex items-center gap-2"><Layers className="w-4 h-4" /> Tipo de Bloque</Label>
+                  <Controller name="wallType" control={control} render={({ field }) => (
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger id="wallType"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="masonry">Albañilería Común</SelectItem>
+                        <SelectItem value="structural">Bloque Estructural</SelectItem>
+                        <SelectItem value="drywall">Gesso Acartonado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )} />
+                </div>
+                
+                {/* Finish Quality */}
+                <div className="space-y-2">
+                  <Label htmlFor="finishQuality" className="flex items-center gap-2"><Gem className="w-4 h-4" /> Calidad de Acabado</Label>
+                  <Controller name="finishQuality" control={control} render={({ field }) => (
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger id="finishQuality"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="economy">Económico</SelectItem>
+                        <SelectItem value="medium">Medio</SelectItem>
+                        <SelectItem value="high">Alto</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )} />
+                </div>
+
+                {/* Wall Finish */}
+                <div className="space-y-2">
+                  <Label htmlFor="wallFinish" className="flex items-center gap-2"><PaintBucket className="w-4 h-4" /> Acabado de Paredes</Label>
+                  <Controller name="wallFinish" control={control} render={({ field }) => (
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger id="wallFinish"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="paint">Pintura</SelectItem>
+                        <SelectItem value="cladding">Chapisco</SelectItem>
+                        <SelectItem value="plaster">Embozo</SelectItem>
+                        <SelectItem value="skim-coat">Reboco</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )} />
+                </div>
+
+                {/* Frame Area */}
+                <div className="space-y-2">
+                  <Label htmlFor="frameArea" className="flex items-center gap-2"><DoorOpen className="w-4 h-4" /> Área de Esquadrias (m²)</Label>
+                  <Controller name="frameArea" control={control} render={({ field }) => <Input id="frameArea" type="number" {...field} />} />
+                </div>
+
+                {/* Bathrooms */}
+                <div className="space-y-2">
+                  <Label htmlFor="bathrooms" className="flex items-center gap-2"><Bath className="w-4 h-4" /> Cantidad de Baños</Label>
+                  <Controller name="bathrooms" control={control} render={({ field }) => <Input id="bathrooms" type="number" {...field} />} />
+                </div>
+
+                {/* Floor Area */}
+                 <div className="space-y-2">
+                  <Label htmlFor="floorArea" className="flex items-center gap-2"><Square className="w-4 h-4" /> Metragem de Piso (m²)</Label>
+                  <Controller name="floorArea" control={control} render={({ field }) => <Input id="floorArea" type="number" {...field} />} />
+                </div>
+                
+                {/* Ceiling */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="ceilingArea" className="flex items-center gap-2"><Home className="w-4 h-4" /> Área de Forro (m²)</Label>
+                    <Controller name="ceilingArea" control={control} render={({ field }) => <Input id="ceilingArea" type="number" {...field} />} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ceilingType" className="flex items-center gap-2"><Wind className="w-4 h-4" /> Tipo de Forro</Label>
+                    <Controller name="ceilingType" control={control} render={({ field }) => (
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger id="quality">
-                          <SelectValue placeholder="Select quality..." />
-                        </SelectTrigger>
+                        <SelectTrigger id="ceilingType"><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="standard">Standard</SelectItem>
-                          <SelectItem value="premium">Premium</SelectItem>
-                          <SelectItem value="luxury">Luxury</SelectItem>
+                          <SelectItem value="pvc">PVC</SelectItem>
+                          <SelectItem value="gypsum">Gesso</SelectItem>
                         </SelectContent>
                       </Select>
-                    )}
-                  />
+                    )} />
+                  </div>
                 </div>
+
+                 {/* Roofing */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="roofArea" className="flex items-center gap-2"><Home className="w-4 h-4" /> Área de Cobertura (m²)</Label>
+                        <Controller name="roofArea" control={control} render={({ field }) => <Input id="roofArea" type="number" {...field} />} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="roofType" className="flex items-center gap-2"><Building2 className="w-4 h-4" /> Tipo de Cobertura</Label>
+                         <Controller name="roofType" control={control} render={({ field }) => (
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger id="roofType"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="ceramic">Cerámica</SelectItem>
+                                    <SelectItem value="metal">Metálica</SelectItem>
+                                    <SelectItem value="slab">Laje</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        )} />
+                    </div>
+                </div>
+
+                {/* Foundation */}
                 <div className="space-y-2">
-                  <Label htmlFor="floors" className="flex items-center gap-2">
-                    <Layers className="w-4 h-4" /> Number of Floors
-                  </Label>
-                  <Controller
-                    name="floors"
-                    control={control}
-                    render={({ field }) => (
-                      <Input id="floors" type="number" placeholder="e.g., 2" {...field} />
-                    )}
-                  />
-                  {errors.floors && <p className="text-destructive text-sm">{errors.floors.message}</p>}
+                  <Label htmlFor="foundationType" className="flex items-center gap-2"><Droplet className="w-4 h-4" /> Tipo de Fundação</Label>
+                  <Controller name="foundationType" control={control} render={({ field }) => (
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger id="foundationType"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="standard">Padrão</SelectItem>
+                          <SelectItem value="continuous-helix">Hélice Contínua</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )} />
+                </div>
+                
+                {/* Waste */}
+                <div className="space-y-2">
+                  <Label htmlFor="wastePercentage" className="flex items-center gap-2"><Percent className="w-4 h-4" /> Percentual de Desperdício (%)</Label>
+                  <Controller name="wastePercentage" control={control} render={({ field }) => <Input id="wastePercentage" type="number" {...field} />} />
                 </div>
               </form>
             </CardContent>
@@ -238,35 +325,31 @@ export default function BudgetBuilderPage() {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="font-headline text-2xl">
-                Estimated Budget Breakdown
+                Desglose del Presupuesto Estimado
               </CardTitle>
               <CardDescription>
-                This is a preliminary estimate based on the provided data.
+                Esta es una estimación preliminar basada en los datos proporcionados.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-96 overflow-auto border rounded-md">
+              <div className="h-[40rem] overflow-auto border rounded-md">
                 <Table>
                   <TableHeader className="sticky top-0 bg-secondary">
                     <TableRow>
-                      <TableHead className="font-semibold">Item</TableHead>
-                      <TableHead className="text-right font-semibold">Quantity</TableHead>
-                      <TableHead className="text-right font-semibold">Unit Price</TableHead>
-                      <TableHead className="text-right font-semibold">Total Price</TableHead>
+                      <TableHead className="font-semibold">Ítem</TableHead>
+                      <TableHead className="text-right font-semibold">Precio Total</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {eap.length > 0 ? eap.map((item) => (
                       <TableRow key={item.id}>
                         <TableCell className="font-medium">{item.name}</TableCell>
-                        <TableCell className="text-right">{item.quantity.toFixed(2)} {item.unit}</TableCell>
-                        <TableCell className="text-right">{formatCurrency(item.unitPrice)}</TableCell>
                         <TableCell className="text-right font-semibold">{formatCurrency(item.totalPrice)}</TableCell>
                       </TableRow>
                     )) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center text-muted-foreground h-48">
-                          Enter valid project details to see the budget breakdown.
+                          Ingrese detalles válidos del proyecto para ver el desglose del presupuesto.
                         </TableCell>
                       </TableRow>
                     )}
@@ -279,10 +362,10 @@ export default function BudgetBuilderPage() {
               <div className="flex justify-between items-center w-full mt-4">
                   <Button onClick={handleExport} variant="outline" disabled={eap.length === 0}>
                     <FileDown className="mr-2 h-4 w-4" />
-                    Export CSV
+                    Exportar CSV
                   </Button>
                   <div className="text-right">
-                    <p className="text-muted-foreground">Total Estimated Budget</p>
+                    <p className="text-muted-foreground">Presupuesto Total Estimado</p>
                     <p className="text-2xl font-bold font-headline text-primary">
                       {formatCurrency(totalBudget)}
                     </p>

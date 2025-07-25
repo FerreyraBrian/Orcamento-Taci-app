@@ -8,22 +8,53 @@ export interface EapItem {
 }
 
 export interface BudgetInputs {
-  projectType: "residential" | "commercial" | "industrial";
   area: number;
-  quality: "standard" | "premium" | "luxury";
-  floors: number;
+  wallType: 'masonry' | 'structural' | 'drywall';
+  finishQuality: 'economy' | 'medium' | 'high';
+  wallFinish: 'paint' | 'cladding' | 'plaster' | 'skim-coat';
+  frameArea: number;
+  bathrooms: number;
+  floorArea: number;
+  ceilingArea: number;
+  ceilingType: 'pvc' | 'gypsum';
+  roofType: 'ceramic' | 'metal' | 'slab';
+  roofArea: number;
+  foundationType: 'standard' | 'continuous-helix';
+  wastePercentage: number;
 }
 
 export interface CostFactors {
   baseCostPerSqm: number;
-  qualityMultiplier: {
+  wallTypeMultiplier: {
+    masonry: number;
+    structural: number;
+    drywall: number;
+  },
+  finishQualityMultiplier: {
+    economy: number;
+    medium: number;
+    high: number;
+  },
+  wallFinishMultiplier: {
+    paint: number;
+    cladding: number;
+    plaster: number;
+    skimCoat: number;
+  },
+  frameCostPerSqm: number;
+  costPerBathroom: number;
+  floorCostPerSqm: number;
+  ceilingCostPerSqm: {
+    pvc: number;
+    gypsum: number;
+  },
+  roofTypeMultiplier: {
+    ceramic: number;
+    metal: number;
+    slab: number;
+  },
+  foundationMultiplier: {
     standard: number;
-    premium: number;
-    luxury: number;
-  };
-  projectTypeMultiplier: {
-    residential: number;
-    commercial: number;
-    industrial: number;
-  };
+    continuousHelix: number;
+  },
 }
