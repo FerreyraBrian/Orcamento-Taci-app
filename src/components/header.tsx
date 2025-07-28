@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
-import { Home, Mail } from "lucide-react";
+import { Home, Mail, Calculator } from "lucide-react";
 
 export function Header() {
   const pathname = usePathname();
 
   const navItems = [
     { href: "/", label: "Início", icon: Home },
+    { href: "/orcamento", label: "Orçamento", icon: Calculator },
     { href: "/contato", label: "Contato", icon: Mail },
   ];
 
