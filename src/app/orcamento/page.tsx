@@ -1,4 +1,4 @@
-// src/app/orcamento/page.tsx
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -35,8 +35,8 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-// Fatores de Custo Padrão
-const initialCostFactors = {
+// Fatores de Custo Padrão (Fallback)
+const defaultCostFactors = {
   baseCostPerMeter: 1500, // Custo base por m² em BRL
   eap: {
     fundacao: 0.10,
@@ -93,6 +93,7 @@ const initialCostFactors = {
 export default function OrcamentoPage() {
   const [budget, setBudget] = useState<Record<string, number> | null>(null);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const [costFactors, setCostFactors] = useState(defaultCostFactors);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -114,81 +115,88 @@ export default function OrcamentoPage() {
     },
   });
 
+  useEffect(() => {
+    try {
+      const savedFactors = localStorage.getItem("costFactors");
+      if (savedFactors) {
+        setCostFactors(JSON.parse(savedFactors));
+      }
+    } catch (error) {
+      console.error("Could not load cost factors from localStorage, using defaults.", error);
+    }
+  }, []);
+
   const calculateBudget = (data: FormData) => {
-    const factors = initialCostFactors;
+    const factors = costFactors;
     const costs = { ...factors.eap };
 
-    // 1. Área total da construção (m²)
     const areaTotal = data.areaTotal;
-
-    // 2. Tipo de bloco
     costs.alvenaria *= factors.blockTypeMultiplier[data.tipoBloco];
-
-    // 3. Padrão de acabamento
     const qualityMultiplier = factors.qualityMultiplier[data.padraoAcabamento];
     costs.revestimentos *= qualityMultiplier;
     costs.esquadrias *= qualityMultiplier;
     costs.pintura *= qualityMultiplier;
 
-    // 4. Acabamento das paredes
     const wallFinishMultiplier = factors.wallFinishMultiplier[data.acabamentoParedes];
     costs.revestimentos *= wallFinishMultiplier;
     costs.pintura *= wallFinishMultiplier;
     
-    // 6. Quantidade de banheiros
     const extraCostBanheiros = data.qtdBanheiros * factors.costPerUnit.banheiro;
-    costs.instalacoesHidraulicas += extraCostBanheiros / (factors.baseCostPerMeter * areaTotal);
-    costs.instalacoesEletricas += extraCostBanheiros / (factors.baseCostPerMeter * areaTotal);
-    costs.esquadrias += extraCostBanheiros / (factors.baseCostPerMeter * areaTotal);
+    const baseTotalCostForPercentage = factors.baseCostPerMeter * areaTotal;
+    costs.instalacoesHidraulicas += extraCostBanheiros / baseTotalCostForPercentage;
+    costs.instalacoesEletricas += extraCostBanheiros / baseTotalCostForPercentage;
     
-    // 8. Metragem de forro
     const forroCost = data.metragemForro * factors.costPerSqMeter.forro * factors.ceilingTypeMultiplier[data.tipoForro];
-    costs.forro = forroCost / (factors.baseCostPerMeter * areaTotal);
+    costs.forro = forroCost / baseTotalCostForPercentage;
 
-    // 9. Tipo de cobertura
     const roofMultiplier = factors.roofTypeMultiplier[data.tipoCobertura];
     costs.cobertura *= roofMultiplier;
-    if (data.tipoCobertura === 'laje' || data.tipoCobertura === 'metalica') {
-        costs.impermeabilizacao *= 1.2; // Ativação/ajuste
+    if (data.tipoCobertura === 'laje') {
+        costs.impermeabilizacao *= 1.2;
     }
 
-    // 11. Fundação
     costs.fundacao *= data.fundacaoHeliceContinua ? factors.foundationMultiplier.helice_continua : factors.foundationMultiplier.normal;
     
-    // Custos base calculados pelos percentuais
     let calculatedCosts: Record<string, number> = {};
     let subtotal = 0;
 
     Object.keys(factors.eap).forEach(key => {
-        const stageCost = costs[key] * factors.baseCostPerMeter * areaTotal;
+        const stageCost = costs[key as keyof typeof costs] * factors.baseCostPerMeter * areaTotal;
         calculatedCosts[key] = stageCost;
         subtotal += stageCost;
     });
 
-    // 5. Área das esquadrias (adiciona ao custo de esquadrias)
     calculatedCosts.esquadrias += data.areaEsquadrias * factors.costPerSqMeter.esquadrias;
-    
-    // 7. Metragem quadrada de piso cerâmico (adiciona ao custo de revestimentos)
     calculatedCosts.revestimentos += data.areaPisoCeramico * factors.costPerSqMeter.pisoCeramico * qualityMultiplier;
 
-    // 10. Área de cobertura (ajuste final)
     calculatedCosts.cobertura = (calculatedCosts.cobertura / areaTotal) * data.areaCobertura;
     calculatedCosts.impermeabilizacao = (calculatedCosts.impermeabilizacao / areaTotal) * data.areaCobertura;
     
     subtotal = Object.values(calculatedCosts).reduce((acc, cost) => acc + cost, 0);
 
-    // 12. Desperdício
     const desperdicioCost = subtotal * (data.percentualDesperdicio / 100);
     calculatedCosts['desperdicio'] = desperdicioCost;
     let totalWithWaste = subtotal + desperdicioCost;
 
-    // 13. Margem de lucro e indiretos
     const profitMarginCost = totalWithWaste * (data.margemLucroEIndiretos / 100);
     calculatedCosts['margemLucroEIndiretos'] = profitMarginCost;
     
     const finalCost = totalWithWaste + profitMarginCost;
 
-    setBudget(calculatedCosts);
+    const orderedBudget: Record<string, number> = {};
+    const eapOrder = [
+        'fundacao', 'estrutura', 'alvenaria', 'instalacoesHidraulicas', 'instalacoesEletricas',
+        'revestimentos', 'esquadrias', 'cobertura', 'forro', 'impermeabilizacao', 'pintura',
+        'desperdicio', 'margemLucroEIndiretos'
+    ];
+
+    eapOrder.forEach(key => {
+        if (calculatedCosts[key] !== undefined) {
+            orderedBudget[key] = calculatedCosts[key];
+        }
+    });
+
+    setBudget(orderedBudget);
     setTotalCost(finalCost);
   };
   
@@ -196,7 +204,8 @@ export default function OrcamentoPage() {
     calculateBudget(form.getValues());
     const subscription = form.watch(() => calculateBudget(form.getValues()));
     return () => subscription.unsubscribe();
-  }, [form]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form, costFactors]);
 
 
   return (
@@ -399,7 +408,7 @@ export default function OrcamentoPage() {
                     {budget ? (
                         Object.entries(budget).map(([key, value]) => (
                         <div key={key} className="flex justify-between">
-                            <span className="capitalize text-muted-foreground">{key.replace(/_/g, ' ')}</span>
+                            <span className="capitalize text-muted-foreground">{key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</span>
                             <span className="font-medium">
                             {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             </span>

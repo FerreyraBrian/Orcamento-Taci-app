@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
-import { Home, Mail, Calculator } from "lucide-react";
+import { Home, Mail, Calculator, Settings } from "lucide-react";
 
 export function Header() {
   const pathname = usePathname();
@@ -13,6 +13,7 @@ export function Header() {
     { href: "/", label: "Início", icon: Home },
     { href: "/orcamento", label: "Orçamento", icon: Calculator },
     { href: "/contato", label: "Contato", icon: Mail },
+    { href: "/admin", label: "Admin", icon: Settings },
   ];
 
   return (
