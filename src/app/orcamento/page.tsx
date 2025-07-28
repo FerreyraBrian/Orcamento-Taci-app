@@ -13,7 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { BarChart, PiggyBank, Calculator } from "lucide-react";
+import { BarChart, PiggyBank, Calculator, Download, LockKeyhole } from "lucide-react";
+import { PaymentDialog } from "@/components/payment-dialog";
 
 // Esquema de validação com Zod
 const formSchema = z.object({
@@ -94,6 +95,9 @@ export default function OrcamentoPage() {
   const [budget, setBudget] = useState<Record<string, number> | null>(null);
   const [totalCost, setTotalCost] = useState<number>(0);
   const [costFactors, setCostFactors] = useState(defaultCostFactors);
+  const [isPaid, setIsPaid] = useState(false);
+  const [isPaymentDialogOpen, setPaymentDialogOpen] = useState(false);
+
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -114,17 +118,6 @@ export default function OrcamentoPage() {
       margemLucroEIndiretos: 15,
     },
   });
-
-  useEffect(() => {
-    try {
-      const savedFactors = localStorage.getItem("costFactors");
-      if (savedFactors) {
-        setCostFactors(JSON.parse(savedFactors));
-      }
-    } catch (error) {
-      console.error("Could not load cost factors from localStorage, using defaults.", error);
-    }
-  }, []);
 
   const calculateBudget = (data: FormData) => {
     const factors = costFactors;
@@ -201,14 +194,38 @@ export default function OrcamentoPage() {
   };
   
   useEffect(() => {
+    try {
+      const savedFactors = localStorage.getItem("costFactors");
+      if (savedFactors) {
+        setCostFactors(JSON.parse(savedFactors));
+      }
+    } catch (error) {
+      console.error("Could not load cost factors from localStorage, using defaults.", error);
+    }
+  }, []);
+
+  useEffect(() => {
     calculateBudget(form.getValues());
-    const subscription = form.watch(() => calculateBudget(form.getValues()));
+    const subscription = form.watch(() => {
+        calculateBudget(form.getValues());
+        setIsPaid(false);
+    });
     return () => subscription.unsubscribe();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, costFactors]);
-
+  
+  const handlePaymentSuccess = () => {
+    setIsPaid(true);
+    setPaymentDialogOpen(false);
+  };
 
   return (
+    <>
+    <PaymentDialog 
+        isOpen={isPaymentDialogOpen}
+        onOpenChange={setPaymentDialogOpen}
+        onPaymentSuccess={handlePaymentSuccess}
+    />
     <div className="container mx-auto p-4 md:p-8">
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">Calculadora de Custo de Obra</h1>
@@ -404,25 +421,43 @@ export default function OrcamentoPage() {
                     <BarChart className="w-8 h-8 text-primary" />
                 </CardHeader>
                 <CardContent>
-                    <div className="space-y-2 text-sm">
-                    {budget ? (
-                        Object.entries(budget).map(([key, value]) => (
-                        <div key={key} className="flex justify-between">
-                            <span className="capitalize text-muted-foreground">{key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</span>
-                            <span className="font-medium">
-                            {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                            </span>
+                    {isPaid ? (
+                        <div className="space-y-2 text-sm">
+                            {budget ? (
+                                Object.entries(budget).map(([key, value]) => (
+                                <div key={key} className="flex justify-between">
+                                    <span className="capitalize text-muted-foreground">{key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</span>
+                                    <span className="font-medium">
+                                    {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                    </span>
+                                </div>
+                                ))
+                            ) : (
+                                <p>Preencha os dados para ver o detalhamento.</p>
+                            )}
                         </div>
-                        ))
                     ) : (
-                        <p>Preencha os dados para ver o detalhamento.</p>
+                        <div className="text-center p-6 bg-secondary/50 rounded-md">
+                            <LockKeyhole className="mx-auto w-12 h-12 text-primary/70 mb-4" />
+                            <h3 className="font-semibold text-lg mb-2">Desbloqueie seu Orçamento</h3>
+                            <p className="text-muted-foreground mb-4">
+                                Efetue o pagamento de uma pequena taxa para ter acesso ao detalhamento completo do seu orçamento.
+                            </p>
+                            <Button onClick={() => setPaymentDialogOpen(true)}>
+                                <Download className="mr-2 h-4 w-4"/>
+                                Pagar e ver detalhamento
+                            </Button>
+                        </div>
                     )}
-                    </div>
                 </CardContent>
             </Card>
         </div>
 
       </div>
     </div>
+    </>
   );
 }
+
+
+    
