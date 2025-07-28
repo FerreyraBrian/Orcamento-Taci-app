@@ -344,7 +344,7 @@ export default function OrcamentoPage() {
                         control={form.control}
                         render={({ field }) => (
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <SelectTrigger><SelectValue /></SelectValue></SelectTrigger>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
                             <SelectItem value="ceramica">Telha Cerâmica</SelectItem>
                             <SelectItem value="metalica">Telha Metálica</SelectItem>
