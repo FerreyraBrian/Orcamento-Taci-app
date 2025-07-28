@@ -2,17 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
-import { Settings, Home } from "lucide-react";
+import { Home, Mail } from "lucide-react";
 
 export function Header() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "Orçamento", icon: Home },
-    { href: "/admin", label: "Admin", icon: Settings },
+    { href: "/", label: "Início", icon: Home },
+    { href: "/contato", label: "Contato", icon: Mail },
   ];
 
   return (
@@ -21,7 +20,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 mr-8">
           <Logo className="h-8 w-8 text-primary" />
           <span className="font-bold font-headline text-xl">
-            BudgetWise Builder
+            Ana-Engenheira
           </span>
         </Link>
         <nav className="flex items-center gap-2">

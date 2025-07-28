@@ -5,8 +5,8 @@ import { Header } from '@/components/header';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'BudgetWise Builder',
-  description: 'Orçamento de Construção com Inteligência Artificial',
+  title: 'Ana - Engenheira Civil',
+  description: 'Portfólio de Engenharia Civil com soluções inovadoras e seguras.',
 };
 
 export default function RootLayout({
