@@ -80,7 +80,7 @@ export default function HomePage() {
             Consultoria e Orçamentos de Obra por Taciana Mendes Carvalho
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto animate-slide-down-delay">
-            Ofereço clareza e precisão para seus projetos. Obtenha orçamentos detalhados e consultoria especializada para pessoas físicas e empresas em Lages, SC.
+            Claridad y precisión en cada proyecto. Consultoría experta y presupuestos detallados, a tu medida
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90">
