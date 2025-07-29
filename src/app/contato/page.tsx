@@ -107,7 +107,7 @@ export default function ContatoPage() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Telefone (Opcional)</Label>
+                <Label htmlFor="phone">Telefone</Label>
                 <Input id="phone" type="tel" {...form.register("phone")} />
                 {form.formState.errors.phone && (
                   <p className="text-destructive text-sm">{form.formState.errors.phone.message}</p>
