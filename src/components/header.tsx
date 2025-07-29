@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
-import { Home, Mail, Calculator, LogIn, Menu, UserPlus } from "lucide-react";
+import { Home, Mail, Calculator, Menu, UserPlus, Shield } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -84,7 +84,7 @@ export function Header() {
                     </nav>
                      <div className="border-t pt-4 space-y-2">
                         <SheetClose asChild>
-                            <Button variant={"secondary"} asChild className="w-full justify-start text-base bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
+                            <Button asChild className="w-full justify-start text-base" size="lg">
                                 <Link href={'/meu-perfil'}>
                                     <UserPlus className="mr-2 h-5 w-5" />
                                     Cadastrar
@@ -94,8 +94,8 @@ export function Header() {
                         <SheetClose asChild>
                             <Button variant={"outline"} asChild className="w-full justify-start text-base" size="lg">
                                 <Link href={'/login'}>
-                                    <LogIn className="mr-2 h-5 w-5" />
-                                    Login
+                                    <Shield className="mr-2 h-5 w-5" />
+                                    Admin
                                 </Link>
                             </Button>
                         </SheetClose>
@@ -123,8 +123,8 @@ export function Header() {
                 asChild
             >
                 <Link href={'/login'}>
-                <LogIn className="mr-2 h-4 w-4" />
-                Login
+                <Shield className="mr-2 h-4 w-4" />
+                Admin
                 </Link>
             </Button>
             <Button asChild>
