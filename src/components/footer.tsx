@@ -44,7 +44,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Logo className="h-8 w-8 text-primary" />
               <span className="font-bold font-headline text-xl">
-                Ana-Engenheira
+                Taciana Mendes
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
@@ -61,8 +61,8 @@ export function Footer() {
               </li>
               <li className="flex items-center justify-center md:justify-start gap-3">
                 <Mail className="w-5 h-5 text-primary" />
-                <a href="mailto:contato@engenheira.com" className="text-muted-foreground hover:text-primary transition-colors">
-                  contato@engenheira.com
+                <a href="mailto:taciana.mendescarvalho@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+                  taciana.mendescarvalho@gmail.com
                 </a>
               </li>
                <li className="flex items-center justify-center md:justify-start gap-3">
@@ -112,7 +112,7 @@ export function Footer() {
 
         </div>
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Ana - Engenheira Civil. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Taciana Mendes Carvalho. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

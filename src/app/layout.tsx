@@ -6,8 +6,8 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Ana - Engenheira Civil',
-  description: 'Portfólio de Engenharia Civil com soluções inovadoras e seguras.',
+  title: 'Taciana Mendes Carvalho - Engenheira Civil',
+  description: 'Portfólio de Engenharia Civil com soluções inovadoras e seguras em Lages, SC.',
 };
 
 export default function RootLayout({

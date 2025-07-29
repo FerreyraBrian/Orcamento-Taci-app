@@ -81,7 +81,7 @@ export default function HomePage() {
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto animate-slide-down-delay">
             Transformando ideias em realidade com soluções de engenharia seguras,
-            eficientes e personalizadas para o seu projeto.
+            eficientes e personalizadas para o seu projeto em Lages, SC.
           </p>
           <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 animate-pop-in">
             <Link href="/contato">

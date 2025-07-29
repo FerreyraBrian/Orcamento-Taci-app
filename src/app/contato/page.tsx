@@ -55,8 +55,8 @@ export default function ContatoPage() {
               <Mail className="w-6 h-6 text-accent" />
               <div>
                 <h3 className="font-semibold">Email</h3>
-                <a href="mailto:contato@engenheira.com" className="text-muted-foreground hover:text-primary">
-                  contato@engenheira.com
+                <a href="mailto:taciana.mendescarvalho@gmail.com" className="text-muted-foreground hover:text-primary">
+                  taciana.mendescarvalho@gmail.com
                 </a>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function ContatoPage() {
               <MapPin className="w-6 h-6 text-accent" />
               <div>
                 <h3 className="font-semibold">Localização</h3>
-                <p className="text-muted-foreground">São Paulo, SP - Atendimento Remoto e Presencial</p>
+                <p className="text-muted-foreground">Lages, SC - Atendimento Remoto e Presencial</p>
               </div>
             </div>
           </div>

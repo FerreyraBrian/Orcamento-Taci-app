@@ -14,7 +14,6 @@ export function Header() {
     { href: "/", label: "Início", icon: Home },
     { href: "/orcamento", label: "Orçamento", icon: Calculator },
     { href: "/contato", label: "Contato", icon: Mail },
-    { href: "/admin", label: "Admin", icon: Settings },
   ];
 
   return (
@@ -23,23 +22,32 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 mr-8">
           <Logo className="h-8 w-8 text-primary" />
           <span className="font-bold font-headline text-xl">
-            Ana-Engenheira
+            Taciana Mendes
           </span>
         </Link>
-        <nav className="flex items-center gap-2">
+        <nav className="flex-grow flex items-center gap-2">
           {navItems.map((item) => (
             <Button
               key={item.href}
               variant={pathname.startsWith(item.href) && item.href !== "/" || pathname === item.href ? "secondary" : "ghost"}
               asChild
             >
-              <Link href={item.label === 'Admin' ? '/login' : item.href}>
+              <Link href={item.href}>
                 <item.icon className="mr-2 h-4 w-4" />
                 {item.label}
               </Link>
             </Button>
           ))}
         </nav>
+         <Button
+              variant={"ghost"}
+              asChild
+            >
+              <Link href={'/login'}>
+                <Settings className="mr-2 h-4 w-4" />
+                Admin
+              </Link>
+            </Button>
       </div>
     </header>
   );
