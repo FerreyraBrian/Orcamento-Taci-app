@@ -117,21 +117,23 @@ export function Header() {
         <nav className="flex-grow flex items-center gap-2">
           <NavLinks />
         </nav>
-         <Button
-            variant={"ghost"}
-            asChild
-          >
-            <Link href={'/login'}>
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Link>
-          </Button>
-        <Button asChild>
-            <Link href={'/meu-perfil'}>
-              <UserPlus className="mr-2 h-4 w-4" />
-              Cadastrar
-            </Link>
-        </Button>
+         <div className="flex items-center gap-2">
+            <Button
+                variant={"ghost"}
+                asChild
+            >
+                <Link href={'/login'}>
+                <LogIn className="mr-2 h-4 w-4" />
+                Login
+                </Link>
+            </Button>
+            <Button asChild>
+                <Link href={'/meu-perfil'}>
+                <UserPlus className="mr-2 h-4 w-4" />
+                Cadastrar
+                </Link>
+            </Button>
+         </div>
       </div>
     </header>
   );
