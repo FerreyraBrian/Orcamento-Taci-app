@@ -40,7 +40,7 @@ export default function HomePage() {
 
   const projects = [
     {
-      image: "https://placehold.co/600x400.png",
+      image: "https://arquitetacleusadesouza.com.br/wp-content/uploads/2021/03/CEEDF452-26C7-4D57-984E-2D2685B8EAD7-e1616974780766.jpeg",
       hint: "modern house",
       title: "Residência Contemporânea",
       description: "Projeto estrutural e acompanhamento de obra de residência de alto padrão.",
