@@ -31,7 +31,6 @@ const formSchema = z.object({
   areaCobertura: z.coerce.number().min(0),
   fundacaoHeliceContinua: z.boolean(),
   percentualDesperdicio: z.coerce.number().min(0).max(100),
-  margemLucroEIndiretos: z.coerce.number().min(0).max(100),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -115,7 +114,6 @@ export default function OrcamentoPage() {
       areaCobertura: 0,
       fundacaoHeliceContinua: false,
       percentualDesperdicio: 0,
-      margemLucroEIndiretos: 0,
     },
   });
 
@@ -178,16 +176,13 @@ export default function OrcamentoPage() {
     calculatedCosts['desperdicio'] = desperdicioCost;
     let totalWithWaste = subtotal + desperdicioCost;
 
-    const profitMarginCost = totalWithWaste * (data.margemLucroEIndiretos / 100);
-    calculatedCosts['margemLucroEIndiretos'] = profitMarginCost;
-    
-    const finalCost = totalWithWaste + profitMarginCost;
+    const finalCost = totalWithWaste;
 
     const orderedBudget: Record<string, number> = {};
     const eapOrder = [
         'fundacao', 'estrutura', 'alvenaria', 'instalacoesHidraulicas', 'instalacoesEletricas',
         'revestimentos', 'esquadrias', 'cobertura', 'forro', 'impermeabilizacao', 'pintura',
-        'desperdicio', 'margemLucroEIndiretos'
+        'desperdicio'
     ];
 
     eapOrder.forEach(key => {
@@ -399,10 +394,6 @@ export default function OrcamentoPage() {
                     <Label htmlFor="percentualDesperdicio">Percentual de Desperdício (%)</Label>
                     <Input id="percentualDesperdicio" type="number" {...form.register("percentualDesperdicio")} placeholder="Ex: 5" />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="margemLucroEIndiretos">Margem de Lucro e Indiretos (%)</Label>
-                    <Input id="margemLucroEIndiretos" type="number" {...form.register("margemLucroEIndiretos")} placeholder="Ex: 15"/>
-                  </div>
               </div>
 
             </form>
@@ -465,3 +456,5 @@ export default function OrcamentoPage() {
     </>
   );
 }
+
+    
