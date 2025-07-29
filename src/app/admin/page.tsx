@@ -1,8 +1,10 @@
+
 // src/app/admin/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -10,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Settings, SlidersHorizontal } from "lucide-react";
+import { Save, Settings } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 // Fatores de Custo Padrão (como fallback)
@@ -127,6 +129,8 @@ type CostFactors = z.infer<typeof costFactorsSchema>;
 export default function AdminPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
 
   const form = useForm<CostFactors>({
     resolver: zodResolver(costFactorsSchema),
@@ -134,22 +138,28 @@ export default function AdminPage() {
   });
 
   useEffect(() => {
-    try {
-      const savedFactors = localStorage.getItem("costFactors");
-      if (savedFactors) {
-        const parsedFactors = JSON.parse(savedFactors);
-        form.reset(parsedFactors);
+    const authStatus = localStorage.getItem("isAuthenticated");
+    if (authStatus !== "true") {
+      router.push("/login");
+    } else {
+      setIsAuthenticated(true);
+      try {
+        const savedFactors = localStorage.getItem("costFactors");
+        if (savedFactors) {
+          const parsedFactors = JSON.parse(savedFactors);
+          form.reset(parsedFactors);
+        }
+      } catch (error) {
+          console.error("Failed to load or parse cost factors from localStorage", error);
+          toast({
+              title: "Erro ao carregar configurações",
+              description: "Usando configurações padrão.",
+              variant: "destructive"
+          })
       }
-    } catch (error) {
-        console.error("Failed to load or parse cost factors from localStorage", error);
-        toast({
-            title: "Erro ao carregar configurações",
-            description: "Usando configurações padrão.",
-            variant: "destructive"
-        })
     }
     setIsLoading(false);
-  }, [form, toast]);
+  }, [form, toast, router]);
 
   const onSubmit = (data: CostFactors) => {
     try {
@@ -168,10 +178,10 @@ export default function AdminPage() {
     }
   };
   
-  if (isLoading) {
+  if (isLoading || !isAuthenticated) {
       return (
           <div className="container mx-auto p-4 md:p-8 text-center">
-              <p>Carregando configurações...</p>
+              <p>Verificando autenticação...</p>
           </div>
       )
   }

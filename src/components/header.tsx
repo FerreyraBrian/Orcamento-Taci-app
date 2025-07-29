@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -29,10 +30,10 @@ export function Header() {
           {navItems.map((item) => (
             <Button
               key={item.href}
-              variant={pathname === item.href ? "secondary" : "ghost"}
+              variant={pathname.startsWith(item.href) && item.href !== "/" || pathname === item.href ? "secondary" : "ghost"}
               asChild
             >
-              <Link href={item.href}>
+              <Link href={item.label === 'Admin' ? '/login' : item.href}>
                 <item.icon className="mr-2 h-4 w-4" />
                 {item.label}
               </Link>
