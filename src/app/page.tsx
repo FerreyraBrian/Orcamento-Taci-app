@@ -77,7 +77,7 @@ export default function HomePage() {
       <section className="bg-secondary/60 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary animate-slide-down">
-            Consultoria e Orçamentos de Obra por Taciana Mendes Carvalho
+            Consultoria e Orçamentos de Obra
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto animate-slide-down-delay">
             Claridad y precisión en cada proyecto. Consultoría experta y presupuestos detallados, a tu medida
