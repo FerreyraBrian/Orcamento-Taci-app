@@ -12,29 +12,29 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { HardHat, Ruler, PencilRuler, Lightbulb, ChevronRight } from "lucide-react";
+import { HardHat, Ruler, Calculator, Lightbulb, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
   const services = [
     {
+      icon: <Lightbulb className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
+      title: "Consultoria de Engenharia",
+      description: "Soluções estratégicas para pessoas físicas e empresas otimizarem seus projetos de construção e reforma.",
+    },
+    {
+      icon: <Calculator className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
+      title: "Orçamento Detalhado de Obras",
+      description: "Estimativas de custo precisas e transparentes para planejar seu investimento com segurança. Experimente nossa calculadora!",
+    },
+    {
       icon: <HardHat className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
-      title: "Gerenciamento de Obras",
-      description: "Coordenação completa de projetos, do planejamento à entrega, garantindo prazos e qualidade.",
+      title: "Gerenciamento e Laudos",
+      description: "Coordenação de obras e elaboração de laudos técnicos para garantir a qualidade e a conformidade do seu projeto.",
     },
     {
       icon: <Ruler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
-      title: "Cálculo Estrutural",
-      description: "Desenvolvimento de projetos estruturais seguros e otimizados para edificações residenciais e comerciais.",
-    },
-    {
-      icon: <PencilRuler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
-      title: "Laudos e Vistorias Técnicas",
-      description: "Elaboração de laudos periciais, vistorias de imóveis e consultoria técnica especializada.",
-    },
-    {
-      icon: <Lightbulb className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
-      title: "Consultoria em Engenharia",
-      description: "Soluções inovadoras e personalizadas para os desafios do seu projeto de construção ou reforma.",
+      title: "Projetos Estruturais",
+      description: "Desenvolvimento de projetos estruturais seguros e otimizados para diversos tipos de edificações.",
     },
   ];
 
@@ -77,18 +77,25 @@ export default function HomePage() {
       <section className="bg-secondary/60 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary animate-slide-down">
-            Engenharia Civil com Precisão e Inovação
+            Consultoria e Orçamentos de Obra por Taciana Mendes Carvalho
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto animate-slide-down-delay">
-            Transformando ideias em realidade com soluções de engenharia seguras,
-            eficientes e personalizadas para o seu projeto em Lages, SC.
+          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto animate-slide-down-delay">
+            Ofereço clareza e precisão para seus projetos. Obtenha orçamentos detalhados e consultoria especializada para pessoas físicas e empresas em Lages, SC.
           </p>
-          <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 animate-pop-in">
-            <Link href="/contato">
-              Fale com a Engenheira
-              <ChevronRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in">
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90">
+                <Link href="/orcamento">
+                <Calculator className="mr-2" />
+                Calcular Orçamento
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-background/50">
+                <Link href="/contato">
+                Solicitar Consultoria
+                <ChevronRight className="ml-2 h-5 w-5" />
+                </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -96,7 +103,7 @@ export default function HomePage() {
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-headline">Serviços Oferecidos</h2>
+            <h2 className="text-3xl font-bold font-headline">Serviços Especializados</h2>
             <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
               Compromisso com a excelência em cada etapa do seu projeto.
             </p>

@@ -6,8 +6,8 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Taciana Mendes Carvalho - Engenheira Civil',
-  description: 'Portfólio de Engenharia Civil com soluções inovadoras e seguras em Lages, SC.',
+  title: 'Taciana Mendes Carvalho - Consultoria e Orçamentos de Engenharia',
+  description: 'Consultoria e orçamentos de obras para pessoas físicas e empresas. Planeje seu projeto com segurança e precisão em Lages, SC.',
 };
 
 export default function RootLayout({
