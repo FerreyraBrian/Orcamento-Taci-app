@@ -74,7 +74,7 @@ export default function HomePage() {
   return (
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
-      <section className="relative bg-secondary/60 py-20 md:py-32 text-white">
+      <section className="relative bg-secondary/60 py-20 md:py-32 text-white overflow-hidden">
          <div className="absolute inset-0">
             <Image
                 src="https://i.pinimg.com/736x/54/8c/fe/548cfe4bcd8b9b88d160e54c66bacf78.jpg"
@@ -86,13 +86,13 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline text-white animate-slide-down">
+          <h1 className="text-4xl md:text-5xl font-bold font-headline text-white animate-slide-down opacity-0">
             Consultoria e Orçamentos de Obra
           </h1>
-          <p className="mt-4 text-lg text-gray-200 max-w-3xl mx-auto animate-slide-down-delay">
+          <p className="mt-4 text-lg text-gray-200 max-w-3xl mx-auto animate-slide-down-delay opacity-0">
             Claridad y precisión en cada proyecto. Consultoría experta y presupuestos detallados, a tu medida
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <Link href="/orcamento">
                 <Calculator className="mr-2" />
@@ -167,7 +167,7 @@ export default function HomePage() {
                       />
                       <CardHeader>
                         <CardTitle>{project.title}</CardTitle>
-                      </CardHeader>
+                      </Header>
                       <CardContent className="flex-grow">
                         <p className="text-muted-foreground">{project.description}</p>
                       </CardContent>
