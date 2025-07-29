@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
         hostname: 'arquitetacleusadesouza.com.br',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.venderoualugar.com.br',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

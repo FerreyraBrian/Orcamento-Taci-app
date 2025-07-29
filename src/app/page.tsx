@@ -46,7 +46,7 @@ export default function HomePage() {
       description: "Projeto estrutural e acompanhamento de obra de residência de alto padrão.",
     },
     {
-      image: "https://placehold.co/600x400.png",
+      image: "https://www.venderoualugar.com.br/uploads/imoveis/image/46-Predio_comercial_com_1000m2_no_Santo_Antonio-3d8604f1.jpeg",
       hint: "building facade",
       title: "Edifício Comercial",
       description: "Laudo de reforma e consultoria para modernização de fachada comercial.",
