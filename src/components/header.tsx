@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
-import { Home, Mail, Calculator, Settings, Menu, X } from "lucide-react";
+import { Home, Mail, Calculator, LogIn, Menu, UserPlus } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -82,12 +82,20 @@ export function Header() {
                     <nav className="flex flex-col gap-2 flex-grow">
                         <NavLinks isMobile />
                     </nav>
-                     <div className="border-t pt-4">
+                     <div className="border-t pt-4 space-y-2">
+                        <SheetClose asChild>
+                            <Button variant={"secondary"} asChild className="w-full justify-start text-base bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
+                                <Link href={'/meu-perfil'}>
+                                    <UserPlus className="mr-2 h-5 w-5" />
+                                    Cadastrar
+                                </Link>
+                            </Button>
+                        </SheetClose>
                         <SheetClose asChild>
                             <Button variant={"outline"} asChild className="w-full justify-start text-base" size="lg">
                                 <Link href={'/login'}>
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    Admin
+                                    <LogIn className="mr-2 h-5 w-5" />
+                                    Login
                                 </Link>
                             </Button>
                         </SheetClose>
@@ -109,15 +117,21 @@ export function Header() {
         <nav className="flex-grow flex items-center gap-2">
           <NavLinks />
         </nav>
-        <Button
+         <Button
             variant={"ghost"}
             asChild
           >
             <Link href={'/login'}>
-              <Settings className="mr-2 h-4 w-4" />
-              Admin
+              <LogIn className="mr-2 h-4 w-4" />
+              Login
             </Link>
           </Button>
+        <Button asChild>
+            <Link href={'/meu-perfil'}>
+              <UserPlus className="mr-2 h-4 w-4" />
+              Cadastrar
+            </Link>
+        </Button>
       </div>
     </header>
   );
