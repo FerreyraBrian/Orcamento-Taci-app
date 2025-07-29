@@ -55,8 +55,8 @@ export default function ContatoPage() {
               <Mail className="w-6 h-6 text-accent" />
               <div>
                 <h3 className="font-semibold">Email</h3>
-                <a href="mailto:taciana.mendescarvalho@gmail.com" className="text-muted-foreground hover:text-primary">
-                  taciana.mendescarvalho@gmail.com
+                <a href="mailto:email@gmail.com" className="text-muted-foreground hover:text-primary">
+                  email@gmail.com
                 </a>
               </div>
             </div>
