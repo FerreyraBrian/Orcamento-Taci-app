@@ -102,24 +102,31 @@ export default function OrcamentoPage() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      areaTotal: 100,
+      areaTotal: 0,
       tipoBloco: "alvenaria",
       padraoAcabamento: "medio",
-      acabamentoParedes: "reboco",
-      areaEsquadrias: 20,
-      qtdBanheiros: 2,
-      areaPisoCeramico: 80,
-      metragemForro: 100,
-      tipoForro: "gesso",
+      acabamentoParedes: "pintura",
+      areaEsquadrias: 0,
+      qtdBanheiros: 0,
+      areaPisoCeramico: 0,
+      metragemForro: 0,
+      tipoForro: "pvc",
       tipoCobertura: "ceramica",
-      areaCobertura: 120,
+      areaCobertura: 0,
       fundacaoHeliceContinua: false,
-      percentualDesperdicio: 5,
-      margemLucroEIndiretos: 15,
+      percentualDesperdicio: 0,
+      margemLucroEIndiretos: 0,
     },
   });
 
   const calculateBudget = (data: FormData) => {
+    // Se a area total for 0, não faz sentido calcular.
+    if (!data.areaTotal || data.areaTotal <= 0) {
+        setBudget(null);
+        setTotalCost(0);
+        return;
+    }
+
     const factors = costFactors;
     const costs = { ...factors.eap };
 
@@ -205,10 +212,11 @@ export default function OrcamentoPage() {
   }, []);
 
   useEffect(() => {
-    calculateBudget(form.getValues());
-    const subscription = form.watch(() => {
-        calculateBudget(form.getValues());
-        setIsPaid(false);
+    // Recalcula o orçamento sempre que qualquer valor do formulário mudar
+    const subscription = form.watch((values) => {
+        calculateBudget(values as FormData);
+        // Reseta o status de pagamento se os valores que afetam o custo mudarem
+        setIsPaid(false); 
     });
     return () => subscription.unsubscribe();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,11 +255,11 @@ export default function OrcamentoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="areaTotal">Área Total da Construção (m²)</Label>
-                    <Input id="areaTotal" type="number" {...form.register("areaTotal")} />
+                    <Input id="areaTotal" type="number" {...form.register("areaTotal")} placeholder="Ex: 100" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="areaCobertura">Área de Cobertura (m²)</Label>
-                    <Input id="areaCobertura" type="number" {...form.register("areaCobertura")} />
+                    <Input id="areaCobertura" type="number" {...form.register("areaCobertura")} placeholder="Ex: 120"/>
                   </div>
               </div>
 
@@ -317,15 +325,15 @@ export default function OrcamentoPage() {
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="areaEsquadrias">Área de Esquadrias (m²)</Label>
-                    <Input id="areaEsquadrias" type="number" {...form.register("areaEsquadrias")} />
+                    <Input id="areaEsquadrias" type="number" {...form.register("areaEsquadrias")} placeholder="Ex: 20"/>
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="areaPisoCeramico">Área de Piso Cerâmico (m²)</Label>
-                    <Input id="areaPisoCeramico" type="number" {...form.register("areaPisoCeramico")} />
+                    <Input id="areaPisoCeramico" type="number" {...form.register("areaPisoCeramico")} placeholder="Ex: 80" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="qtdBanheiros">Quantidade de Banheiros</Label>
-                    <Input id="qtdBanheiros" type="number" {...form.register("qtdBanheiros")} />
+                    <Input id="qtdBanheiros" type="number" {...form.register("qtdBanheiros")} placeholder="Ex: 2"/>
                   </div>
               </div>
 
@@ -334,7 +342,7 @@ export default function OrcamentoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="metragemForro">Metragem de Forro (m²)</Label>
-                    <Input id="metragemForro" type="number" {...form.register("metragemForro")} />
+                    <Input id="metragemForro" type="number" {...form.register("metragemForro")} placeholder="Ex: 100" />
                   </div>
                   <div className="space-y-2">
                     <Label>Tipo de Forro</Label>
@@ -389,11 +397,11 @@ export default function OrcamentoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="percentualDesperdicio">Percentual de Desperdício (%)</Label>
-                    <Input id="percentualDesperdicio" type="number" {...form.register("percentualDesperdicio")} />
+                    <Input id="percentualDesperdicio" type="number" {...form.register("percentualDesperdicio")} placeholder="Ex: 5" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="margemLucroEIndiretos">Margem de Lucro e Indiretos (%)</Label>
-                    <Input id="margemLucroEIndiretos" type="number" {...form.register("margemLucroEIndiretos")} />
+                    <Input id="margemLucroEIndiretos" type="number" {...form.register("margemLucroEIndiretos")} placeholder="Ex: 15"/>
                   </div>
               </div>
 
@@ -421,9 +429,11 @@ export default function OrcamentoPage() {
                     <BarChart className="w-8 h-8 text-primary" />
                 </CardHeader>
                 <CardContent>
-                    {isPaid ? (
+                    {!totalCost || totalCost === 0 ? (
+                        <p className="text-muted-foreground text-center">Preencha os dados ao lado para ver a estimativa.</p>
+                    ) : isPaid ? (
                         <div className="space-y-2 text-sm">
-                            {budget ? (
+                            {budget &&
                                 Object.entries(budget).map(([key, value]) => (
                                 <div key={key} className="flex justify-between">
                                     <span className="capitalize text-muted-foreground">{key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</span>
@@ -431,10 +441,7 @@ export default function OrcamentoPage() {
                                     {value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                                     </span>
                                 </div>
-                                ))
-                            ) : (
-                                <p>Preencha os dados para ver o detalhamento.</p>
-                            )}
+                                ))}
                         </div>
                     ) : (
                         <div className="text-center p-6 bg-secondary/50 rounded-md">
@@ -458,6 +465,5 @@ export default function OrcamentoPage() {
     </>
   );
 }
-
 
     
