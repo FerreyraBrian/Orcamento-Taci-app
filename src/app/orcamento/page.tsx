@@ -18,7 +18,7 @@ import { PaymentDialog } from "@/components/payment-dialog";
 
 // Esquema de validação com Zod
 const formSchema = z.object({
-  areaTotal: z.coerce.number().min(1, "Área total é obrigatória"),
+  areaTotal: z.coerce.number().min(0, "Área total é obrigatória"),
   tipoBloco: z.enum(["alvenaria", "bloco_estrutural", "gesso_acartonado"]),
   padraoAcabamento: z.enum(["economico", "medio", "alto"]),
   acabamentoParedes: z.enum(["pintura", "chapisco", "emboco", "reboco"]),
@@ -120,17 +120,17 @@ export default function OrcamentoPage() {
   });
 
   const calculateBudget = (data: FormData) => {
-    // Se a area total for 0, não faz sentido calcular.
-    if (!data.areaTotal || data.areaTotal <= 0) {
+    const factors = costFactors;
+    const costs = { ...factors.eap };
+
+    const areaTotal = data.areaTotal;
+
+    if (!areaTotal || areaTotal <= 0) {
         setBudget(null);
         setTotalCost(0);
         return;
     }
 
-    const factors = costFactors;
-    const costs = { ...factors.eap };
-
-    const areaTotal = data.areaTotal;
     costs.alvenaria *= factors.blockTypeMultiplier[data.tipoBloco];
     const qualityMultiplier = factors.qualityMultiplier[data.padraoAcabamento];
     costs.revestimentos *= qualityMultiplier;
@@ -429,7 +429,7 @@ export default function OrcamentoPage() {
                     <BarChart className="w-8 h-8 text-primary" />
                 </CardHeader>
                 <CardContent>
-                    {!totalCost || totalCost === 0 ? (
+                    {!budget || totalCost === 0 ? (
                         <p className="text-muted-foreground text-center">Preencha os dados ao lado para ver a estimativa.</p>
                     ) : isPaid ? (
                         <div className="space-y-2 text-sm">
@@ -465,5 +465,3 @@ export default function OrcamentoPage() {
     </>
   );
 }
-
-    
