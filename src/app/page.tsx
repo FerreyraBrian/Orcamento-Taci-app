@@ -76,12 +76,6 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="bg-secondary/60 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary animate-slide-down opacity-0">
-            Consultoria e Orçamentos de Obra
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto animate-slide-down-delay opacity-0">
-            Claridad y precisión en cada proyecto. Consultoría experta y presupuestos detallados, a tu medida
-          </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <Link href="/orcamento">
