@@ -20,6 +20,20 @@ export function Header() {
     { href: "/contato", label: "Contato", icon: Mail },
   ];
 
+  const LogoAndTitle = () => (
+     <Link href="/" className="flex items-center gap-3">
+        <Logo className="h-10 w-10 text-primary" />
+        <div className="flex flex-col">
+            <span className="font-bold font-headline text-xl leading-tight">
+                Taciana Mendes
+            </span>
+            <span className="text-sm text-muted-foreground leading-tight -mt-0.5">
+                Engenheira Civil
+            </span>
+        </div>
+    </Link>
+  )
+
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       {navItems.map((item) => {
@@ -51,13 +65,8 @@ export function Header() {
   if (isMobile) {
     return (
       <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Logo className="h-8 w-8 text-primary" />
-            <span className="font-bold font-headline text-lg">
-              Taciana Mendes
-            </span>
-          </Link>
+        <div className="container flex h-20 items-center justify-between">
+            <LogoAndTitle />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon">
@@ -68,12 +77,7 @@ export function Header() {
             <SheetContent side="right" className="w-[300px] sm:w-[340px]">
                 <div className="flex flex-col h-full">
                     <div className="border-b pb-4 mb-4">
-                         <Link href="/" className="flex items-center gap-2">
-                            <Logo className="h-8 w-8 text-primary" />
-                            <span className="font-bold font-headline text-xl">
-                                Taciana Mendes
-                            </span>
-                        </Link>
+                        <LogoAndTitle />
                     </div>
                     <nav className="flex flex-col gap-2 flex-grow">
                         <NavLinks isMobile />
@@ -98,13 +102,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
-        <Link href="/" className="flex items-center gap-2 mr-8">
-          <Logo className="h-8 w-8 text-primary" />
-          <span className="font-bold font-headline text-xl">
-            Taciana Mendes
-          </span>
-        </Link>
+      <div className="container flex h-20 items-center">
+        <div className="mr-8">
+            <LogoAndTitle />
+        </div>
         <nav className="flex-grow flex items-center gap-2">
           <NavLinks />
         </nav>
