@@ -45,7 +45,7 @@ export default function LoginPage() {
     }
     
     // Simulação de autenticação de admin
-    if (data.email === "admin@admin" && data.password === "1234") {
+    if (data.email === "admin@admin.com" && data.password === "1234") {
       toast({
         title: "Login de Admin bem-sucedido!",
         description: "Redirecionando para o painel administrativo.",
