@@ -19,22 +19,18 @@ export default function HomePage() {
     {
       icon: <Lightbulb className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
       title: "Consultoria de Engenharia",
-      description: "Soluções estratégicas para pessoas físicas e empresas otimizarem seus projetos de construção e reforma.",
     },
     {
       icon: <Calculator className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
       title: "Orçamento Detalhado de Obras",
-      description: "Estimativas de custo precisas e transparentes para planejar seu investimento com segurança. Experimente nossa calculadora!",
     },
     {
       icon: <HardHat className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
       title: "Gerenciamento e Laudos",
-      description: "Coordenação de obras e elaboração de laudos técnicos para garantir a qualidade e a conformidade do seu projeto.",
     },
     {
       icon: <Ruler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
       title: "Projetos Estruturais",
-      description: "Desenvolvimento de projetos estruturais seguros e otimizados para diversos tipos de edificações.",
     },
   ];
 
@@ -117,12 +113,6 @@ export default function HomePage() {
       {/* Projects Section */}
       <section id="projects" className="py-16 md:py-24 bg-secondary/60">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-headline">Projetos em Destaque</h2>
-            <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-              Conheça alguns dos projetos que demonstram meu compromisso com a qualidade.
-            </p>
-          </div>
           <Carousel
             opts={{
               align: "start",
@@ -147,7 +137,6 @@ export default function HomePage() {
                         <CardTitle>{project.title}</CardTitle>
                       </CardHeader>
                       <CardContent className="flex-grow">
-                        <p className="text-muted-foreground">{project.description}</p>
                       </CardContent>
                     </Card>
                   </div>
