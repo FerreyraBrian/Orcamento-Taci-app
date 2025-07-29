@@ -167,7 +167,7 @@ export default function HomePage() {
                       />
                       <CardHeader>
                         <CardTitle>{project.title}</CardTitle>
-                      </Header>
+                      </CardHeader>
                       <CardContent className="flex-grow">
                         <p className="text-muted-foreground">{project.description}</p>
                       </CardContent>
