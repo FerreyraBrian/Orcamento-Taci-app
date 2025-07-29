@@ -46,9 +46,6 @@ export default function ContatoPage() {
         <div className="space-y-8">
           <div>
             <h1 className="text-3xl font-bold font-headline text-primary">Entre em Contato</h1>
-            <p className="text-muted-foreground mt-2">
-              Estou à disposição para discutir seu próximo projeto. Preencha o formulário ou utilize um dos canais abaixo.
-            </p>
           </div>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
