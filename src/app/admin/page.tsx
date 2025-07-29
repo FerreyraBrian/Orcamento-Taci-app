@@ -226,7 +226,7 @@ export default function AdminPage() {
               <p className="text-sm text-muted-foreground">
                 Percentual de custo de cada etapa sobre o custo total base. A soma não precisa ser 100%.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {Object.keys(defaultCostFactors.eap).map((key) => (
                   <div key={key} className="space-y-2">
                     <Label htmlFor={`eap.${key}`} className="capitalize">{key.replace(/_/g, ' ')}</Label>
@@ -254,7 +254,7 @@ export default function AdminPage() {
 
             <div className="space-y-4">
                 <h3 className="text-lg font-semibold font-headline">Outros Multiplicadores e Custos</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6">
                     {/* Bloco */}
                     <div className="space-y-2">
                         <Label className="font-medium">Tipo de Bloco</Label>
