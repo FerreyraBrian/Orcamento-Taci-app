@@ -40,13 +40,13 @@ export default function HomePage() {
 
   const projects = [
     {
-      image: "https://arquitetacleusadesouza.com.br/wp-content/uploads/2021/03/CEEDF452-26C7-4D57-984E-2D2685B8EAD7-e1616974780766.jpeg",
+      image: "https://placehold.co/600x400.png",
       hint: "modern house",
       title: "Residência Contemporânea",
       description: "Projeto estrutural e acompanhamento de obra de residência de alto padrão.",
     },
     {
-      image: "https://www.venderoualugar.com.br/uploads/imoveis/image/46-Predio_comercial_com_1000m2_no_Santo_Antonio-3d8604f1.jpeg",
+      image: "https://placehold.co/600x400.png",
       hint: "building facade",
       title: "Edifício Comercial",
       description: "Laudo de reforma e consultoria para modernização de fachada comercial.",
