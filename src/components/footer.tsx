@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone, Linkedin } from "lucide-react";
-import { Logo } from "@/components/icons";
+import { Logo, WhatsappIcon } from "@/components/icons";
 
 export function Footer() {
   return (
@@ -30,6 +30,12 @@ export function Footer() {
                 <Mail className="w-5 h-5 text-primary" />
                 <a href="mailto:contato@engenheira.com" className="text-muted-foreground hover:text-primary transition-colors">
                   contato@engenheira.com
+                </a>
+              </li>
+               <li className="flex items-center justify-center md:justify-start gap-3">
+                <WhatsappIcon className="w-5 h-5 text-primary" />
+                <a href="https://wa.me/5511999998888" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                  WhatsApp
                 </a>
               </li>
             </ul>

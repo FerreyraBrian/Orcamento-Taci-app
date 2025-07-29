@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { WhatsappIcon } from "@/components/icons";
 
 const contactFormSchema = z.object({
   name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres."),
@@ -65,6 +66,15 @@ export default function ContatoPage() {
                 <h3 className="font-semibold">Telefone</h3>
                 <p className="text-muted-foreground">(11) 99999-8888</p>
               </div>
+            </div>
+            <div className="flex items-center gap-4">
+                <WhatsappIcon className="w-6 h-6 text-accent" />
+                <div>
+                    <h3 className="font-semibold">WhatsApp</h3>
+                    <a href="https://wa.me/5511999998888" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                        (11) 99999-8888
+                    </a>
+                </div>
             </div>
             <div className="flex items-center gap-4">
               <MapPin className="w-6 h-6 text-accent" />
