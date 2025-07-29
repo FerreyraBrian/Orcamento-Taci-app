@@ -139,7 +139,7 @@ export default function HomePage() {
               {projects.map((project, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
-                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col hover:-translate-y-2">
+                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
                        <Image
                         src={project.image}
                         alt={project.title}
