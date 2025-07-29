@@ -72,14 +72,14 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="bg-secondary/60 py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in opacity-0">
-            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in opacity-0">
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
                 <Link href="/orcamento">
                 <Calculator className="mr-2" />
                 Calcular Orçamento
                 </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" >
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
                 <Link href="/contato">
                 Solicitar Consultoria
                 <ChevronRight className="ml-2 h-5 w-5" />
@@ -92,7 +92,7 @@ export default function HomePage() {
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                 <CardHeader>
@@ -118,11 +118,11 @@ export default function HomePage() {
               align: "start",
               loop: true,
             }}
-            className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto"
+            className="w-full max-w-full"
           >
             <CarouselContent>
               {projects.map((project, index) => (
-                <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
                        <Image
