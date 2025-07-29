@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -15,6 +16,7 @@ import { WhatsappIcon } from "@/components/icons";
 const contactFormSchema = z.object({
   name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres."),
   email: z.string().email("Por favor, insira um email válido."),
+  phone: z.string().optional(),
   message: z.string().min(10, "A mensagem deve ter pelo menos 10 caracteres."),
 });
 
@@ -27,6 +29,7 @@ export default function ContatoPage() {
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       message: "",
     },
   });
@@ -86,7 +89,6 @@ export default function ContatoPage() {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle>Envie sua mensagem</CardTitle>
-            <CardDescription>Responderei o mais rápido possível.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -102,6 +104,13 @@ export default function ContatoPage() {
                 <Input id="email" type="email" {...form.register("email")} />
                 {form.formState.errors.email && (
                   <p className="text-destructive text-sm">{form.formState.errors.email.message}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telefone (Opcional)</Label>
+                <Input id="phone" type="tel" {...form.register("phone")} />
+                {form.formState.errors.phone && (
+                  <p className="text-destructive text-sm">{form.formState.errors.phone.message}</p>
                 )}
               </div>
               <div className="space-y-2">
