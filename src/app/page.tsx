@@ -96,12 +96,6 @@ export default function HomePage() {
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-headline">Serviços Especializados</h2>
-            <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-              Compromisso com a excelência em cada etapa do seu projeto.
-            </p>
-          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
@@ -112,7 +106,7 @@ export default function HomePage() {
                   <CardTitle className="mt-4">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{service.description}</p>
+                  
                 </CardContent>
               </Card>
             ))}
