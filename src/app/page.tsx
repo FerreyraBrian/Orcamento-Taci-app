@@ -1,30 +1,38 @@
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { HardHat, Ruler, PencilRuler, Lightbulb, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
   const services = [
     {
-      icon: <HardHat className="w-10 h-10 text-primary" />,
+      icon: <HardHat className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
       title: "Gerenciamento de Obras",
       description: "Coordenação completa de projetos, do planejamento à entrega, garantindo prazos e qualidade.",
     },
     {
-      icon: <Ruler className="w-10 h-10 text-primary" />,
+      icon: <Ruler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
       title: "Cálculo Estrutural",
       description: "Desenvolvimento de projetos estruturais seguros e otimizados para edificações residenciais e comerciais.",
     },
     {
-      icon: <PencilRuler className="w-10 h-10 text-primary" />,
+      icon: <PencilRuler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
       title: "Laudos e Vistorias Técnicas",
       description: "Elaboração de laudos periciais, vistorias de imóveis e consultoria técnica especializada.",
     },
     {
-      icon: <Lightbulb className="w-10 h-10 text-primary" />,
+      icon: <Lightbulb className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
       title: "Consultoria em Engenharia",
       description: "Soluções inovadoras e personalizadas para os desafios do seu projeto de construção ou reforma.",
     },
@@ -49,21 +57,33 @@ export default function HomePage() {
       title: "Reforma de Interiores",
       description: "Gerenciamento completo de reforma de apartamento, incluindo reforço estrutural.",
     },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "structural analysis",
+      title: "Análise Estrutural",
+      description: "Cálculo e verificação de estrutura metálica para galpão industrial.",
+    },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "apartment building",
+      title: "Prédio Residencial",
+      description: "Projeto completo de edifício residencial multifamiliar em alvenaria estrutural.",
+    },
   ];
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
       <section className="bg-secondary/60 py-20 md:py-32">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary">
+          <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary animate-slide-down">
             Engenharia Civil com Precisão e Inovação
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto animate-slide-down-delay">
             Transformando ideias em realidade com soluções de engenharia seguras,
             eficientes e personalizadas para o seu projeto.
           </p>
-          <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90">
+          <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 animate-pop-in">
             <Link href="/contato">
               Fale com a Engenheira
               <ChevronRight className="ml-2 h-5 w-5" />
@@ -83,7 +103,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow">
+              <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                 <CardHeader>
                   <div className="mx-auto bg-secondary rounded-full p-4 w-fit">
                     {service.icon}
@@ -108,26 +128,40 @@ export default function HomePage() {
               Conheça alguns dos projetos que demonstram meu compromisso com a qualidade.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  width={600}
-                  height={400}
-                  data-ai-hint={project.hint}
-                  className="w-full h-48 object-cover"
-                />
-                <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{project.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-5xl mx-auto"
+          >
+            <CarouselContent>
+              {projects.map((project, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-1">
+                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col hover:-translate-y-2">
+                       <Image
+                        src={project.image}
+                        alt={project.title}
+                        width={600}
+                        height={400}
+                        data-ai-hint={project.hint}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <CardHeader>
+                        <CardTitle>{project.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="flex-grow">
+                        <p className="text-muted-foreground">{project.description}</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="ml-12" />
+            <CarouselNext className="mr-12" />
+          </Carousel>
         </div>
       </section>
     </div>
