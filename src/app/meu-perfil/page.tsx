@@ -116,7 +116,7 @@ export default function MeuPerfilPage() {
               {form.formState.errors.document && <p className="text-destructive text-sm">{form.formState.errors.document.message}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -135,7 +135,7 @@ export default function MeuPerfilPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
                 <div className="relative">
