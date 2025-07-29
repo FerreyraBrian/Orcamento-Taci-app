@@ -75,7 +75,7 @@ export default function HomePage() {
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
       <section className="bg-secondary/60 py-20 md:py-32">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary animate-slide-down">
             Engenharia Civil com Precisão e Inovação
           </h1>
@@ -94,7 +94,7 @@ export default function HomePage() {
 
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold font-headline">Serviços Oferecidos</h2>
             <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
@@ -121,7 +121,7 @@ export default function HomePage() {
 
       {/* Projects Section */}
       <section id="projects" className="py-16 md:py-24 bg-secondary/60">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold font-headline">Projetos em Destaque</h2>
             <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
@@ -133,11 +133,11 @@ export default function HomePage() {
               align: "start",
               loop: true,
             }}
-            className="w-full max-w-5xl mx-auto"
+            className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto"
           >
             <CarouselContent>
               {projects.map((project, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
                        <Image
@@ -159,8 +159,8 @@ export default function HomePage() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="ml-12" />
-            <CarouselNext className="mr-12" />
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
       </section>

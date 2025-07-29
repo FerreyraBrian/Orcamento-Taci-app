@@ -402,7 +402,7 @@ export default function OrcamentoPage() {
         </Card>
 
         {/* Painel de Resultados */}
-        <div className="space-y-6 sticky top-24">
+        <div className="space-y-6 lg:sticky top-24">
             <Card className="shadow-lg">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Custo Total Estimado</CardTitle>
