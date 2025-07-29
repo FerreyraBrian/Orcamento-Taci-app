@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -87,7 +88,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold font-headline text-lg mb-4">Newsletter</h3>
+            <h3 className="font-semibold font-headline text-lg mb-4">Inscreva-se para receber notícias</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Receba as últimas novidades e artigos sobre engenharia.
             </p>
