@@ -72,14 +72,6 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="bg-secondary/60 py-12 md:py-20">
         <div className="container mx-auto px-4 text-center">
-            <div className="max-w-3xl mx-auto">
-                 <h1 className="text-4xl md:text-6xl font-bold font-headline text-primary animate-slide-down opacity-0">
-                    Engenharia Civil com Precisão e Inovação
-                </h1>
-                <p className="mt-4 text-lg md:text-xl text-muted-foreground animate-slide-down-delay opacity-0">
-                    Da consultoria ao gerenciamento, transformamos seus projetos em realidade com segurança e eficiência.
-                </p>
-            </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
                 <Link href="/orcamento">
