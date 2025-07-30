@@ -180,14 +180,14 @@ export default function AdminPage() {
   
   if (isLoading || !isAuthenticated) {
       return (
-          <div className="container mx-auto p-4 md:p-8 text-center">
+          <div className="container mx-auto p-4 py-8 text-center">
               <p>Verificando autenticação...</p>
           </div>
       )
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
+    <div className="container mx-auto p-4 py-8 md:p-8">
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">Painel Administrativo</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -226,7 +226,7 @@ export default function AdminPage() {
               <p className="text-sm text-muted-foreground">
                 Percentual de custo de cada etapa sobre o custo total base. A soma não precisa ser 100%.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {Object.keys(defaultCostFactors.eap).map((key) => (
                   <div key={key} className="space-y-2">
                     <Label htmlFor={`eap.${key}`} className="capitalize">{key.replace(/_/g, ' ')}</Label>
@@ -254,7 +254,7 @@ export default function AdminPage() {
 
             <div className="space-y-4">
                 <h3 className="text-lg font-semibold font-headline">Outros Multiplicadores e Custos</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                     {/* Bloco */}
                     <div className="space-y-2">
                         <Label className="font-medium">Tipo de Bloco</Label>
@@ -318,7 +318,7 @@ export default function AdminPage() {
                 </div>
             </div>
 
-            <Button type="submit" size="lg" className="w-full md:w-auto bg-accent hover:bg-accent/90">
+            <Button type="submit" size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90">
               <Save className="mr-2" />
               Salvar Configurações
             </Button>
@@ -328,3 +328,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    

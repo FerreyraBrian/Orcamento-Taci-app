@@ -167,8 +167,10 @@ export default function OrcamentoPage() {
     calculatedCosts.esquadrias += data.areaEsquadrias * factors.costPerSqMeter.esquadrias;
     calculatedCosts.revestimentos += data.areaPisoCeramico * factors.costPerSqMeter.pisoCeramico * qualityMultiplier;
 
-    calculatedCosts.cobertura = (calculatedCosts.cobertura / areaTotal) * data.areaCobertura;
-    calculatedCosts.impermeabilizacao = (calculatedCosts.impermeabilizacao / areaTotal) * data.areaCobertura;
+    if (data.areaCobertura > 0) {
+        calculatedCosts.cobertura = (calculatedCosts.cobertura / areaTotal) * data.areaCobertura;
+        calculatedCosts.impermeabilizacao = (calculatedCosts.impermeabilizacao / areaTotal) * data.areaCobertura;
+    }
     
     subtotal = Object.values(calculatedCosts).reduce((acc, cost) => acc + cost, 0);
 
@@ -229,7 +231,7 @@ export default function OrcamentoPage() {
         onOpenChange={setPaymentDialogOpen}
         onPaymentSuccess={handlePaymentSuccess}
     />
-    <div className="container mx-auto p-4 md:p-8">
+    <div className="container mx-auto p-4 py-8 md:p-8">
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">Calculadora de Custo de Obra</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -456,3 +458,5 @@ export default function OrcamentoPage() {
     </>
   );
 }
+
+    

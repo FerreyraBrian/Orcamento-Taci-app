@@ -70,7 +70,7 @@ export default function HomePage() {
   return (
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-secondary/60 py-12">
+      <section className="bg-secondary/60 py-10">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
@@ -93,10 +93,7 @@ export default function HomePage() {
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Nossos Serviços</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Oferecemos uma gama completa de serviços para garantir a segurança e a eficiência do seu projeto.
-            </p>
+            
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
@@ -122,10 +119,7 @@ export default function HomePage() {
       <section id="projects" className="py-16 md:py-24 bg-secondary/60">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Projetos em Destaque</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Conheça alguns dos projetos que demonstram nossa expertise e compromisso com a qualidade.
-            </p>
+            
           </div>
           <Carousel
             opts={{
@@ -166,3 +160,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

@@ -63,7 +63,7 @@ export default function MeuPerfilPage() {
   };
 
   return (
-    <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-200px)] p-4">
+    <div className="container mx-auto flex items-center justify-center p-4 py-8">
       <Card className="w-full max-w-lg shadow-lg">
         <CardHeader className="text-center">
           <UserPlus className="mx-auto h-12 w-12 text-primary" />
@@ -116,7 +116,7 @@ export default function MeuPerfilPage() {
               {form.formState.errors.document && <p className="text-destructive text-sm">{form.formState.errors.document.message}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -135,7 +135,7 @@ export default function MeuPerfilPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
               <div className="space-y-2">
                 <Label htmlFor="password">Senha</Label>
                 <div className="relative">
@@ -171,3 +171,5 @@ export default function MeuPerfilPage() {
     </div>
   );
 }
+
+    

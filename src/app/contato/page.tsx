@@ -44,7 +44,7 @@ export default function ContatoPage() {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
+    <div className="container mx-auto p-4 py-8 md:p-8">
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">Entre em Contato</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -135,3 +135,5 @@ export default function ContatoPage() {
     </div>
   );
 }
+
+    
