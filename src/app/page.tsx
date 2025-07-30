@@ -70,9 +70,17 @@ export default function HomePage() {
   return (
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-secondary/60 py-20 md:py-32">
+      <section className="bg-secondary/60 py-16 md:py-24">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-pop-in opacity-0">
+            <div className="max-w-3xl mx-auto">
+                 <h1 className="text-4xl md:text-6xl font-bold font-headline text-primary animate-slide-down opacity-0">
+                    Engenharia Civil com Precisão e Inovação
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-muted-foreground animate-slide-down-delay opacity-0">
+                    Da consultoria ao gerenciamento, transformamos seus projetos em realidade com segurança e eficiência.
+                </p>
+            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
                 <Link href="/orcamento">
                 <Calculator className="mr-2" />
@@ -92,6 +100,12 @@ export default function HomePage() {
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Nossos Serviços</h2>
+            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+              Oferecemos soluções completas para todas as fases do seu projeto de engenharia.
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
@@ -99,10 +113,12 @@ export default function HomePage() {
                   <div className="mx-auto bg-secondary rounded-full p-4 w-fit">
                     {service.icon}
                   </div>
-                  <CardTitle className="mt-4">{service.title}</CardTitle>
+                  <CardTitle className="mt-4 text-lg">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  
+                  <p className="text-sm text-muted-foreground">
+                    {/* Adicionar descrição do serviço aqui se desejar */}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -113,6 +129,12 @@ export default function HomePage() {
       {/* Projects Section */}
       <section id="projects" className="py-16 md:py-24 bg-secondary/60">
         <div className="container mx-auto px-4">
+           <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Projetos em Destaque</h2>
+                <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                Conheça alguns dos projetos que tivemos o prazer de realizar.
+                </p>
+            </div>
           <Carousel
             opts={{
               align: "start",
@@ -123,7 +145,7 @@ export default function HomePage() {
             <CarouselContent>
               {projects.map((project, index) => (
                 <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
+                  <div className="p-1 h-full">
                     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
                        <Image
                         src={project.image}
@@ -134,9 +156,10 @@ export default function HomePage() {
                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <CardHeader>
-                        <CardTitle>{project.title}</CardTitle>
+                        <CardTitle className="text-xl">{project.title}</CardTitle>
                       </CardHeader>
                       <CardContent className="flex-grow">
+                         <p className="text-sm text-muted-foreground">{project.description}</p>
                       </CardContent>
                     </Card>
                   </div>
