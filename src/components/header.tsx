@@ -23,11 +23,11 @@ export function Header() {
   const LogoAndTitle = () => (
      <Link href="/" className="flex items-center gap-3">
         <Logo className="h-8 w-8 text-primary" />
-        <div className="flex flex-row items-baseline gap-2">
+        <div className="flex flex-col">
             <span className="font-bold font-headline text-lg leading-tight">
                 Taciana Mendes
             </span>
-            <span className="text-sm text-muted-foreground leading-tight hidden sm:inline">
+            <span className="text-sm text-muted-foreground leading-tight">
                 Engenheira Civil
             </span>
         </div>
