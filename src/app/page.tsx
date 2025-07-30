@@ -70,7 +70,7 @@ export default function HomePage() {
   return (
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-secondary/60 py-12 md:py-20">
+      <section className="bg-secondary/60 py-12">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-pop-in opacity-0">
             <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
@@ -115,12 +115,6 @@ export default function HomePage() {
       {/* Projects Section */}
       <section id="projects" className="py-16 md:py-24 bg-secondary/60">
         <div className="container mx-auto px-4">
-           <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Projetos em Destaque</h2>
-                <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-                Conheça alguns dos projetos que tivemos o prazer de realizar.
-                </p>
-            </div>
           <Carousel
             opts={{
               align: "start",
