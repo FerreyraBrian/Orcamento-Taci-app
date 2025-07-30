@@ -347,7 +347,7 @@ export default function OrcamentoPage() {
                         name="tipoForro"
                         control={form.control}
                         render={({ field }) => (
-                            <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex items-center space-x-4 pt-2">
+                            <RadioGroup onValuechange={field.onChange} defaultValue={field.value} className="flex items-center space-x-4 pt-2">
                                 <div className="flex items-center space-x-2"><RadioGroupItem value="pvc" id="pvc" /><Label htmlFor="pvc">PVC</Label></div>
                                 <div className="flex items-center space-x-2"><RadioGroupItem value="gesso" id="gesso" /><Label htmlFor="gesso">Gesso</Label></div>
                             </RadioGroup>
@@ -458,5 +458,3 @@ export default function OrcamentoPage() {
     </>
   );
 }
-
-    
