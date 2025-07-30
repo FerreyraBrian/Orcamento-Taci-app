@@ -70,7 +70,7 @@ export default function HomePage() {
   return (
     <div className="flex-1 animate-fade-in">
       {/* Hero Section */}
-      <section className="bg-secondary/60 py-16 md:py-24">
+      <section className="bg-secondary/60 py-12 md:py-20">
         <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
                  <h1 className="text-4xl md:text-6xl font-bold font-headline text-primary animate-slide-down opacity-0">
