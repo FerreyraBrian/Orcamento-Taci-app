@@ -65,7 +65,7 @@ export function Header() {
   if (isMobile) {
     return (
       <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-        <div className="container flex h-20 items-center justify-between">
+        <div className="container flex h-16 items-center justify-between">
             <LogoAndTitle />
           <Sheet>
             <SheetTrigger asChild>
@@ -93,7 +93,7 @@ export function Header() {
                         </SheetClose>
                         <SheetClose asChild>
                             <Button variant={"outline"} asChild className="w-full justify-start text-base" size="lg">
-                                <Link href={'/login'}>
+                                <Link href={'/admin'}>
                                     <Shield className="mr-2 h-5 w-5" />
                                     Admin
                                 </Link>
@@ -110,11 +110,11 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-      <div className="container flex h-20 items-center">
+      <div className="container flex h-16 items-center">
         <div className="mr-8">
             <LogoAndTitle />
         </div>
-        <nav className="flex-grow flex items-center gap-2">
+        <nav className="flex-grow flex items-center gap-4">
           <NavLinks />
         </nav>
          <div className="flex items-center gap-2">
@@ -122,7 +122,7 @@ export function Header() {
                 variant={"ghost"}
                 asChild
             >
-                <Link href={'/login'}>
+                <Link href={'/admin'}>
                 <Shield className="mr-2 h-4 w-4" />
                 Admin
                 </Link>
