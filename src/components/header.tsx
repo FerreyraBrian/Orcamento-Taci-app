@@ -24,10 +24,10 @@ export function Header() {
      <Link href="/" className="flex items-center gap-3">
         <Logo className="h-10 w-10 text-primary" />
         <div className="flex flex-col">
-            <span className="font-bold font-headline text-xl leading-tight">
+            <span className="font-bold font-headline text-lg leading-tight">
                 Taciana Mendes
             </span>
-            <span className="text-sm text-muted-foreground leading-tight -mt-0.5">
+            <span className="text-sm text-muted-foreground leading-tight">
                 Engenheira Civil
             </span>
         </div>
@@ -65,7 +65,7 @@ export function Header() {
   if (isMobile) {
     return (
       <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-16 items-center justify-between px-4">
             <LogoAndTitle />
           <Sheet>
             <SheetTrigger asChild>
@@ -84,18 +84,18 @@ export function Header() {
                     </nav>
                      <div className="border-t pt-4 space-y-2">
                         <SheetClose asChild>
-                            <Button asChild className="w-full justify-start text-base" size="lg">
-                                <Link href={'/meu-perfil'}>
-                                    <UserPlus className="mr-2 h-5 w-5" />
-                                    Cadastrar
+                            <Button asChild className="w-full justify-start text-base" size="lg" variant="ghost">
+                                <Link href={'/admin'}>
+                                    <Shield className="mr-2 h-5 w-5" />
+                                    Admin
                                 </Link>
                             </Button>
                         </SheetClose>
                         <SheetClose asChild>
-                            <Button variant={"outline"} asChild className="w-full justify-start text-base" size="lg">
-                                <Link href={'/admin'}>
-                                    <Shield className="mr-2 h-5 w-5" />
-                                    Admin
+                            <Button asChild className="w-full justify-start text-base" size="lg">
+                                <Link href={'/meu-perfil'}>
+                                    <UserPlus className="mr-2 h-5 w-5" />
+                                    Cadastrar
                                 </Link>
                             </Button>
                         </SheetClose>
@@ -110,11 +110,11 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center px-4">
         <div className="mr-8">
             <LogoAndTitle />
         </div>
-        <nav className="flex-grow flex items-center gap-4">
+        <nav className="flex-grow flex items-center gap-1">
           <NavLinks />
         </nav>
          <div className="flex items-center gap-2">
