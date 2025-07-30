@@ -118,11 +118,11 @@ export default function HomePage() {
               align: "start",
               loop: true,
             }}
-            className="w-full max-w-full"
+            className="w-full"
           >
             <CarouselContent>
               {projects.map((project, index) => (
-                <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
                        <Image

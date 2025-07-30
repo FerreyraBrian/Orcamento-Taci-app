@@ -260,7 +260,7 @@ export default function OrcamentoPage() {
 
                <Separator />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                  <div className="space-y-2">
                     <Label>Padrão de Acabamento</Label>
                     <Controller
@@ -317,7 +317,7 @@ export default function OrcamentoPage() {
               
               <Separator />
 
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="areaEsquadrias">Área de Esquadrias (m²)</Label>
                     <Input id="areaEsquadrias" type="number" {...form.register("areaEsquadrias")} placeholder="Ex: 20"/>
@@ -334,7 +334,7 @@ export default function OrcamentoPage() {
 
                <Separator />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="metragemForro">Metragem de Forro (m²)</Label>
                     <Input id="metragemForro" type="number" {...form.register("metragemForro")} placeholder="Ex: 100" />
@@ -456,5 +456,3 @@ export default function OrcamentoPage() {
     </>
   );
 }
-
-    
