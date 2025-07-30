@@ -45,11 +45,15 @@ export default function ContatoPage() {
 
   return (
     <div className="container mx-auto p-4 md:p-8">
+      <div className="text-center mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold font-headline text-primary">Entre em Contato</h1>
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Tem uma dúvida ou quer iniciar um projeto? Preencha o formulário ou utilize um dos canais abaixo.
+        </p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <div className="space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold font-headline text-primary">Entre em Contato</h1>
-          </div>
+          
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <Mail className="w-6 h-6 text-accent" />

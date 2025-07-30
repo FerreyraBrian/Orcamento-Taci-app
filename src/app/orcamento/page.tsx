@@ -334,7 +334,7 @@ export default function OrcamentoPage() {
 
                <Separator />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="metragemForro">Metragem de Forro (m²)</Label>
                     <Input id="metragemForro" type="number" {...form.register("metragemForro")} placeholder="Ex: 100" />
@@ -438,7 +438,7 @@ export default function OrcamentoPage() {
                         <div className="text-center p-6 bg-secondary/50 rounded-md">
                             <LockKeyhole className="mx-auto w-12 h-12 text-primary/70 mb-4" />
                             <h3 className="font-semibold text-lg mb-2">Desbloqueie seu Orçamento</h3>
-                            <p className="text-muted-foreground mb-4">
+                            <p className="text-muted-foreground mb-4 text-sm">
                                 Efetue o pagamento de uma pequena taxa para ter acesso ao detalhamento completo do seu orçamento.
                             </p>
                             <Button onClick={() => setPaymentDialogOpen(true)}>
