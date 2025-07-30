@@ -92,12 +92,6 @@ export default function HomePage() {
       {/* Services Section */}
       <section id="services" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline text-primary">Nossos Serviços</h2>
-            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
-              Oferecemos soluções completas para todas as fases do seu projeto de engenharia.
-            </p>
-          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
