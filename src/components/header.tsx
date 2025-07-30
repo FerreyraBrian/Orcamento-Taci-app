@@ -22,12 +22,12 @@ export function Header() {
 
   const LogoAndTitle = () => (
      <Link href="/" className="flex items-center gap-3">
-        <Logo className="h-10 w-10 text-primary" />
-        <div className="flex flex-col">
+        <Logo className="h-8 w-8 text-primary" />
+        <div className="flex flex-row items-baseline gap-2">
             <span className="font-bold font-headline text-lg leading-tight">
                 Taciana Mendes
             </span>
-            <span className="text-sm text-muted-foreground leading-tight">
+            <span className="text-sm text-muted-foreground leading-tight hidden sm:inline">
                 Engenheira Civil
             </span>
         </div>
@@ -77,7 +77,17 @@ export function Header() {
             <SheetContent side="right" className="w-[300px] sm:w-[340px]">
                 <div className="flex flex-col h-full">
                     <div className="border-b pb-4 mb-4">
-                        <LogoAndTitle />
+                       <Link href="/" className="flex items-center gap-3">
+                            <Logo className="h-8 w-8 text-primary" />
+                            <div className="flex flex-col">
+                                <span className="font-bold font-headline text-lg leading-tight">
+                                    Taciana Mendes
+                                </span>
+                                <span className="text-sm text-muted-foreground leading-tight">
+                                    Engenheira Civil
+                                </span>
+                            </div>
+                        </Link>
                     </div>
                     <nav className="flex flex-col gap-2 flex-grow">
                         <NavLinks isMobile />
