@@ -7,12 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/icons";
 import { Home, Mail, Calculator, Menu, UserPlus, Shield } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
-  const isMobile = useIsMobile();
 
   const navItems = [
     { href: "/", label: "Início", icon: Home },
@@ -32,7 +30,7 @@ export function Header() {
             </span>
         </div>
     </Link>
-  )
+  );
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
@@ -62,11 +60,37 @@ export function Header() {
     </>
   );
 
-  if (isMobile) {
-    return (
-      <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between px-4">
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
+      <div className="container flex h-16 items-center px-4">
+        {/* Logo - Always visible */}
+        <div className="mr-8">
             <LogoAndTitle />
+        </div>
+        
+        {/* Desktop Navigation - Hidden on mobile */}
+        <nav className="hidden flex-grow items-center gap-1 md:flex">
+          <NavLinks />
+        </nav>
+        
+        {/* Desktop Buttons - Hidden on mobile */}
+        <div className="hidden items-center gap-2 md:flex">
+            <Button variant={"ghost"} asChild>
+                <Link href={'/admin'}>
+                    <Shield className="mr-2 h-4 w-4" />
+                    Admin
+                </Link>
+            </Button>
+            <Button asChild className="bg-accent hover:bg-accent/90">
+                <Link href={'/meu-perfil'}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Cadastrar
+                </Link>
+            </Button>
+        </div>
+
+        {/* Mobile Menu - Hidden on desktop */}
+        <div className="ml-auto flex md:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon">
@@ -106,36 +130,6 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
-      </header>
-    );
-  }
-
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-sm">
-      <div className="container flex h-16 items-center px-4">
-        <div className="mr-8">
-            <LogoAndTitle />
-        </div>
-        <nav className="flex-grow flex items-center gap-1">
-          <NavLinks />
-        </nav>
-         <div className="flex items-center gap-2">
-            <Button
-                variant={"ghost"}
-                asChild
-            >
-                <Link href={'/admin'}>
-                <Shield className="mr-2 h-4 w-4" />
-                Admin
-                </Link>
-            </Button>
-            <Button asChild className="bg-accent hover:bg-accent/90">
-                <Link href={'/meu-perfil'}>
-                <UserPlus className="mr-2 h-4 w-4" />
-                Cadastrar
-                </Link>
-            </Button>
-         </div>
       </div>
     </header>
   );

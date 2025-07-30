@@ -2,6 +2,9 @@ import * as React from "react"
 
 const MOBILE_BREAKPOINT = 768
 
+/**
+ * @deprecated This hook can cause hydration mismatches in Next.js. Use CSS-based responsiveness instead (e.g., Tailwind's `md:`, `lg:` prefixes).
+ */
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 
