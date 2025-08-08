@@ -1,0 +1,158 @@
+
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { HardHat, Ruler, Calculator, Lightbulb, ChevronRight } from "lucide-react";
+
+export default function HomePage() {
+  const services = [
+    {
+      icon: <Lightbulb className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
+      title: "Consultoria de Engenharia",
+    },
+    {
+      icon: <Calculator className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
+      title: "Orçamento Detalhado de Obras",
+    },
+    {
+      icon: <HardHat className="w-10 h-10 text-primary transition-transform duration-300 group-hover:rotate-12" />,
+      title: "Gerenciamento e Laudos",
+    },
+    {
+      icon: <Ruler className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />,
+      title: "Projetos Estruturais",
+    },
+  ];
+
+  const projects = [
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "modern house",
+      title: "Residência Contemporânea",
+      description: "Projeto estrutural e acompanhamento de obra de residência de alto padrão.",
+    },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "building facade",
+      title: "Edifício Comercial",
+      description: "Laudo de reforma e consultoria para modernização de fachada comercial.",
+    },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "interior renovation",
+      title: "Reforma de Interiores",
+      description: "Gerenciamento completo de reforma de apartamento, incluindo reforço estrutural.",
+    },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "structural analysis",
+      title: "Análise Estrutural",
+      description: "Cálculo e verificação de estrutura metálica para galpão industrial.",
+    },
+    {
+      image: "https://placehold.co/600x400.png",
+      hint: "apartment building",
+      title: "Prédio Residencial",
+      description: "Projeto completo de edifício residencial multifamiliar em alvenaria estrutural.",
+    },
+  ];
+
+  return (
+    <div className="flex-1 animate-fade-in">
+      {/* Hero Section */}
+      <section className="bg-secondary/60 py-10">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-pop-in opacity-0">
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground w-full sm:w-auto">
+                <Link href="/orcamento">
+                <Calculator className="mr-2" />
+                Calcular Orçamento
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+                <Link href="/contato">
+                Solicitar Consultoria
+                <ChevronRight className="ml-2 h-5 w-5" />
+                </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {services.map((service, index) => (
+              <Card key={index} className="text-center shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
+                <CardHeader>
+                  <div className="mx-auto bg-secondary rounded-full p-4 w-fit">
+                    {service.icon}
+                  </div>
+                  <CardTitle className="mt-4 text-lg">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    {/* Adicionar descrição do serviço aqui se desejar */}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-16 md:py-24 bg-secondary/60">
+        <div className="container mx-auto px-4">
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {projects.map((project, index) => (
+                <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                  <div className="p-1 h-full">
+                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group hover:-translate-y-2">
+                       <Image
+                        src={project.image}
+                        alt={project.title}
+                        width={600}
+                        height={400}
+                        data-ai-hint={project.hint}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <CardHeader>
+                        <CardTitle className="text-xl">{project.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="flex-grow">
+                         <p className="text-sm text-muted-foreground">{project.description}</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
+        </div>
+      </section>
+    </div>
+  );
+}
